@@ -59,6 +59,8 @@ private slots:
 
     void on_btn_subtractJogdrive4_released();
 
+    void on_btn_loadTrajectory_clicked();
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;

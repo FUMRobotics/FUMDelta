@@ -1,9 +1,6 @@
 #include "sendcommand.h"
 #include "qdebug.h"
 
-int SendCommand:: msqid;
-int SendCommand:: msgflg;
-key_t SendCommand:: key;
 SendCommand* SendCommand::instance;
 
 SendCommand::SendCommand(QObject *parent) : QObject(parent)

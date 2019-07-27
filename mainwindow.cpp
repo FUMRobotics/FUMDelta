@@ -148,3 +148,10 @@ void MainWindow::on_btn_subtractJogdrive4_released()
 {
     SendJog(1,3);
 }
+
+void MainWindow::on_btn_loadTrajectory_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Choose points file"), "/home", tr("CSV files (*.csv)"));
+    qDebug("file name="+fileName.toLatin1());
+
+}
