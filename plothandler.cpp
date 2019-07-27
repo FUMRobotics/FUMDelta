@@ -25,10 +25,11 @@ void PlotHandler::updatePlotData(unsigned int key, QVector<double> targetPositio
 //    {
 
 
-
-
+    angle_label->setText( QString::number(actualPosition[plot_id]));
     plot->graph(0)->addData(key, actualPosition[plot_id]);
     plot->graph(1)->addData(key, targetPosition[plot_id]);
+
+
     lastPointKey = key;
 //    }
     // make key axis range scroll with the data (at a constant range size of 8):

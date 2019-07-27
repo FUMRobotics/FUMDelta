@@ -1,7 +1,9 @@
 #include "sendcommand.h"
 #include "qdebug.h"
 
-
+int SendCommand:: msqid;
+int SendCommand:: msgflg;
+key_t SendCommand:: key;
 SendCommand* SendCommand::instance;
 
 SendCommand::SendCommand(QObject *parent) : QObject(parent)
@@ -45,7 +47,7 @@ void SendCommand::SendJog(int drive_id, int data)
             sbuf.opCode[i]=0;
             sbuf.data[i]=0;
         }else{
-            sbuf.opCode[drive_id]=2;
+            sbuf.opCode[drive_id]=4;
             sbuf.data[drive_id]=data;
         }
     }
@@ -54,8 +56,9 @@ void SendCommand::SendJog(int drive_id, int data)
 
 void SendCommand::SendData(SendCommand::message_buf msg)
 {
+    qDebug("Sending jog to queue with data: %d, %d, %d, %d",msg.data[0],msg.data[1],msg.data[2],msg.data[3]);
     size_t msgSize;
-            /* size of data = size of structure - size of mtype */
+   /* size of data = size of structure - size of mtype */
     msgSize = sizeof(struct msgbuf) - sizeof(long);
     if (msgsnd(msqid, &msg, msgSize, IPC_NOWAIT) < 0)
     {

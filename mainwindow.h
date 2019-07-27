@@ -43,10 +43,26 @@ private slots:
 
     void on_btn_subtractJogdrive4_pressed();
 
+    void on_btn_addJog_drive1_released();
+
+    void on_btn_addJog_drive2_released();
+
+    void on_btn_addJog_drive3_released();
+
+    void on_btn_addJog_drive4_released();
+
+    void on_btn_subtractJog_drive1_released();
+
+    void on_btn_subtractJog_drive2_released();
+
+    void on_btn_subtractJog_drive3_released();
+
+    void on_btn_subtractJogdrive4_released();
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
-    int jog_value=5000;
+    int jog_value=500000;
 };
 
 #endif // MAINWINDOW_H
