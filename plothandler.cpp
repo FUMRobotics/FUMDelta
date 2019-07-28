@@ -25,7 +25,7 @@ void PlotHandler::updatePlotData(unsigned int key, QVector<double> targetPositio
 //    {
 
 
-    angle_label->setText( QString::number(actualPosition[plot_id]));
+    angle_label->setText( QString::number(actualPosition[plot_id],'f',4));
     plot->graph(0)->addData(key, actualPosition[plot_id]);
     plot->graph(1)->addData(key, targetPosition[plot_id]);
 

@@ -32,7 +32,8 @@ SOURCES += \
     receiver.cpp \
     plothandler.cpp \
     sendcommand.cpp \
-    trajectorysender.cpp
+    trajectorysender.cpp \
+    dialog_loadpoints.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,10 +41,12 @@ HEADERS += \
     receiver.h \
     plothandler.h \
     sendcommand.h \
-    trajectorysender.h
+    trajectorysender.h \
+    dialog_loadpoints.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    dialog_loadpoints.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

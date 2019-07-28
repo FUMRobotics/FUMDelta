@@ -5,6 +5,7 @@
 #include "qcustomplot.h"
 #include "receiver.h"
 #include "sendcommand.h"
+#include "dialog_loadpoints.h"
 
 namespace Ui {
 class MainWindow;
@@ -65,6 +66,7 @@ private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
     int jog_value=500000;
+    Dialog_LoadPoints* dialog_loading;
 };
 
 #endif // MAINWINDOW_H

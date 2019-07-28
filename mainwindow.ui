@@ -451,7 +451,7 @@ font: 16pt &quot;Ubuntu&quot;;</string>
 font: 26pt &quot;Ubuntu&quot;;</string>
              </property>
              <property name="text">
-              <string>FUM DELTA CONTROLLER</string>
+              <string>FUM DELTA ROBOT</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>

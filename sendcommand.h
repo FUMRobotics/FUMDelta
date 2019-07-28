@@ -39,8 +39,10 @@ typedef struct msgbuf {
     void ClearAlarm(int dirve_id);
     void SendPosition(int drive_id, int data);
     void GoHome(int drive_id);
- 
-   
+    void SendPointTo4Drives(double p0 , double p1, double p2, double p3);
+    int32_t degree_to_motor_position(double point);
+
+
 signals:
 
 public slots:
@@ -49,7 +51,7 @@ private:
    static SendCommand* instance;
    int msqid;
    int msgflg;
-
+   int NUMBER_OF_motorpuls =524288;
    key_t key;
    explicit SendCommand(QObject *parent = nullptr);
 };

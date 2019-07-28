@@ -1,6 +1,7 @@
 #include "sendcommand.h"
 #include "qdebug.h"
 
+
 SendCommand* SendCommand::instance;
 
 SendCommand::SendCommand(QObject *parent) : QObject(parent)
@@ -30,7 +31,9 @@ SendCommand* SendCommand::getInstance()
     }
     return instance;
 }
-
+inline int32_t SendCommand::degree_to_motor_position(double point) {
+    return (int32_t)(point * NUMBER_OF_motorpuls / 360);
+}
 void SendCommand::SendJog(int drive_id, int data)
 {
     message_buf sbuf;
@@ -63,5 +66,27 @@ void SendCommand::SendData(SendCommand::message_buf msg)
                 perror("msgsnd");
                 //exit(1);
     }
+}
+
+void SendCommand::SendPointTo4Drives(double p0, double p1, double p2, double p3)
+{
+    message_buf sbuf;
+    //size_t buf_length;
+
+    sbuf.mtype = 1;
+    sbuf.opCode[0]=1;
+    sbuf.data[0]=degree_to_motor_position(p0);
+
+    sbuf.opCode[1]=1;
+    sbuf.data[1]=degree_to_motor_position(p1);;
+
+    sbuf.opCode[2]=1;
+    sbuf.data[2]=degree_to_motor_position(p2);
+
+    sbuf.opCode[3]=1;
+    sbuf.data[3]=degree_to_motor_position(p3);
+
+
+    SendData(sbuf);
 }
 

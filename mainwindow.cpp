@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "qdebug.h"
 #include "plothandler.h"
+#include "trajectorysender.h"
 
 
 MainWindow::MainWindow(Receiver* receiver,QWidget *parent) :
@@ -153,5 +154,10 @@ void MainWindow::on_btn_loadTrajectory_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Choose points file"), "/home", tr("CSV files (*.csv)"));
     qDebug("file name="+fileName.toLatin1());
-
+    TrajectorySender *ts = new TrajectorySender(fileName, 4);
+    qDebug("load points dialog 3");
+    dialog_loading=new Dialog_LoadPoints(ts);
+    QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
+    dialog_loading->setModal(true);
+    dialog_loading->exec();
 }
