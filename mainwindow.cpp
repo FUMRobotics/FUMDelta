@@ -35,6 +35,34 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::startedSendingPoints()
+{
+    qDebug("set buttons disable");
+    setButtonsEnable(false);
+}
+
+void MainWindow::finishedSendingPoints()
+{
+    qDebug("set buttons enable");
+    setButtonsEnable(true);
+}
+
+void MainWindow::setButtonsEnable(bool enable)
+{
+    ui->btn_jogControl->setEnabled(enable);
+    ui->btn_loadTrajectory->setEnabled(enable);
+    ui->btn_positionControl->setEnabled(enable);
+
+    ui->btn_addJog_drive1->setEnabled(enable);
+    ui->btn_addJog_drive2->setEnabled(enable);
+    ui->btn_addJog_drive3->setEnabled(enable);
+    ui->btn_addJog_drive4->setEnabled(enable);
+
+    ui->btn_subtractJog_drive1->setEnabled(enable);
+    ui->btn_subtractJog_drive2->setEnabled(enable);
+    ui->btn_subtractJog_drive3->setEnabled(enable);
+    ui->btn_subtractJog_drive4->setEnabled(enable);
+}
 
 
 void MainWindow::SendJog(bool sign, int drive_id)
@@ -154,10 +182,17 @@ void MainWindow::on_btn_loadTrajectory_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Choose points file"), "/home", tr("CSV files (*.csv)"));
     qDebug("file name="+fileName.toLatin1());
-    TrajectorySender *ts = new TrajectorySender(fileName, 4);
-    qDebug("load points dialog 3");
-    dialog_loading=new Dialog_LoadPoints(ts);
-    QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
-    dialog_loading->setModal(true);
-    dialog_loading->exec();
+    if(fileName!="")
+    {
+        TrajectorySender *ts = new TrajectorySender(fileName, 4);
+        qDebug("load points dialog 3");
+        dialog_loading=new Dialog_LoadPoints(ts);
+        QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
+        QObject::connect(ts,&TrajectorySender::startedSendingPoints,this, &MainWindow::startedSendingPoints);
+        QObject::connect(ts,&TrajectorySender::finishedSendingPoints,this, &MainWindow::finishedSendingPoints);
+
+        dialog_loading->setModal(true);
+        dialog_loading->exec();
+    }
+
 }
