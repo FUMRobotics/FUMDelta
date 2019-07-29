@@ -283,7 +283,7 @@ font: 16pt &quot;Ubuntu&quot;;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QPushButton" name="btn_subtractJogdrive4">
+                <widget class="QPushButton" name="btn_subtractJog_drive4">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
