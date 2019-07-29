@@ -20,7 +20,9 @@ public:
     ~MainWindow();
     //void updatePlotData(int key, double targetPosition[4], double actualPosition[4]);
 
-
+public slots:
+    void startedSendingPoints();
+    void finishedSendingPoints();
 private slots:
     void SendJog(bool sign,int drive_id);
 
@@ -67,6 +69,8 @@ private:
     SendCommand* send_command;
     int jog_value=500000;
     Dialog_LoadPoints* dialog_loading;
+
+    void setButtonsEnable(bool enable);
 };
 
 #endif // MAINWINDOW_H
