@@ -21,7 +21,8 @@ protected:
 
 signals:
     void finishedLoading(int number_of_points,int time);
-
+    void startedSendingPoints();
+    void finishedSendingPoints();
 public slots:
 
 private:

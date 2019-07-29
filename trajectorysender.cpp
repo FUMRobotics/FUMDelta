@@ -95,9 +95,13 @@ void TrajectorySender::run()
         is_initiated = true;
         QString s="trajectory side, points="+QString::number(getNumberOfPoint())+"time= "+QString::number(getTimeOfTrajectory());
         qDebug(s.toLatin1());
+        QString log="size of arrays respectively: "+QString::number(loadedPoints[0].size())+" "+QString::number(loadedPoints[1].size())+" "+QString::number(loadedPoints[2].size())+" "+QString::number(loadedPoints[3].size());
+        qDebug(log.toLatin1());
         emit finishedLoading(getNumberOfPoint(),getTimeOfTrajectory());
     }else{
+        emit startedSendingPoints();
         sendPointsToDrives();
+        emit finishedSendingPoints();
     }
 }
 
