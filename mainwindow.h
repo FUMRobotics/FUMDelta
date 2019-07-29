@@ -23,6 +23,10 @@ public:
 public slots:
     void startedSendingPoints();
     void finishedSendingPoints();
+    void goHome_slot_drive_1();
+    void goHome_slot_drive_2();
+    void goHome_slot_drive_3();
+    void goHome_slot_drive_4();
 private slots:
     void SendJog(bool sign,int drive_id);
 
@@ -64,13 +68,32 @@ private slots:
 
     void on_btn_loadTrajectory_clicked();
 
+    void on_btn_goHome_clicked();
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
     int jog_value=500000;
     Dialog_LoadPoints* dialog_loading;
-
+    //QVector<bool> isGoingHome;
+    bool hide=true;
     void setButtonsEnable(bool enable);
+    void hideJogUIElements();
+    void showJogUIElements();
+    void setUpGoHomeElements();
+    void hideGoHomeElements();
+
+
+    //buttons for go home
+    QPushButton* btn_goHome_drive1;
+    QPushButton* btn_goHome_drive2;
+    QPushButton* btn_goHome_drive3;
+    QPushButton* btn_goHome_drive4;
+
+
+
+
+
 };
 
 #endif // MAINWINDOW_H

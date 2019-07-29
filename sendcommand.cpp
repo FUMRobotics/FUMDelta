@@ -56,6 +56,7 @@ void SendCommand::SendJog(int drive_id, int data)
 
 void SendCommand::SendData(SendCommand::message_buf msg)
 {
+
     //qDebug("Sending jog to queue with data: %d, %d, %d, %d",msg.data[0],msg.data[1],msg.data[2],msg.data[3]);
     size_t msgSize;
    /* size of data = size of structure - size of mtype */
@@ -66,6 +67,28 @@ void SendCommand::SendData(SendCommand::message_buf msg)
                 perror("msgsnd");
                 //exit(1);
     }
+}
+
+void SendCommand::GoHome(int drive_id)
+{
+    QString s="send go home in SendCommand for drive "+QString::number(drive_id);
+    qDebug(s.toLatin1());
+    message_buf sbuf;
+    //size_t buf_length;
+
+    sbuf.mtype = 1;
+    for(int i=0;i<4;i++)
+    {
+        if(i!=drive_id)
+        {
+            sbuf.opCode[i]=0;
+            sbuf.data[i]=0;
+        }else{
+            sbuf.opCode[drive_id]=3;
+            sbuf.data[drive_id]=0;
+        }
+    }
+    SendData(sbuf);
 }
 
 void SendCommand::SendPointTo4Drives(double p0, double p1, double p2, double p3)

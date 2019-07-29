@@ -108,6 +108,22 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="btn_goHome">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:rgb(238, 238, 236)</string>
+               </property>
+               <property name="text">
+                <string>Go Home</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
