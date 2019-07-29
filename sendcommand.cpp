@@ -56,7 +56,7 @@ void SendCommand::SendJog(int drive_id, int data)
 
 void SendCommand::SendData(SendCommand::message_buf msg)
 {
-    qDebug("Sending jog to queue with data: %d, %d, %d, %d",msg.data[0],msg.data[1],msg.data[2],msg.data[3]);
+    //qDebug("Sending jog to queue with data: %d, %d, %d, %d",msg.data[0],msg.data[1],msg.data[2],msg.data[3]);
     size_t msgSize;
    /* size of data = size of structure - size of mtype */
     msgSize = sizeof(struct msgbuf) - sizeof(long);
