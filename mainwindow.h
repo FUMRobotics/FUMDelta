@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(Receiver* receiver, QWidget *parent = nullptr);
     ~MainWindow();
+
     //void updatePlotData(int key, double targetPosition[4], double actualPosition[4]);
 
 public slots:
@@ -27,6 +28,8 @@ public slots:
     void goHome_slot_drive_2();
     void goHome_slot_drive_3();
     void goHome_slot_drive_4();
+    void loadTrajectory_inner_slot();
+    void sendPositionSlot();
 private slots:
     void SendJog(bool sign,int drive_id);
 
@@ -70,19 +73,29 @@ private slots:
 
     void on_btn_goHome_clicked();
 
+    void on_btn_jogControl_clicked();
+
+    void on_btn_positionControl_clicked();
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
     int jog_value=500000;
     Dialog_LoadPoints* dialog_loading;
     //QVector<bool> isGoingHome;
-    bool hide=true;
+
+
     void setButtonsEnable(bool enable);
+
     void hideJogUIElements();
     void showJogUIElements();
-    void setUpGoHomeElements();
+    void showGoHomeElements();
+    void showLoadFileElement();
+    void hideLoadFileElement();
     void hideGoHomeElements();
-
+    void setUpDynamicGUIElements();
+    void showPositionElements();
+    void hidePositionElements();
 
     //buttons for go home
     QPushButton* btn_goHome_drive1;
@@ -91,7 +104,24 @@ private:
     QPushButton* btn_goHome_drive4;
 
 
+    //button for load file
+    QPushButton* btn_loadFile_inner;
 
+    //text edits for position controls
+    QTextEdit* textEdit_xPos;
+    QTextEdit* textEdit_yPos;
+    QTextEdit* textEdit_zPos;
+
+
+
+
+    QPushButton* btn_sendPosition;
+
+
+    //labels for position control text edits
+    QLabel* label_xPos;
+    QLabel* label_yPos;
+    QLabel* label_zPos;
 
 
 };

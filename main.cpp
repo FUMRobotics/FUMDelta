@@ -4,6 +4,7 @@
 #include <QtGlobal>
 #include <stdio.h>
 #include <stdlib.h>
+#include "inversekinematics.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -39,7 +40,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Receiver receiver;
     MainWindow w(&receiver);
+
     receiver.start();
+    InverseKinematics ik;
+    ik.base();
     qDebug("is running...");
 
 

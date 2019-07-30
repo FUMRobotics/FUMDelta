@@ -17,11 +17,11 @@ InverseKinematics::InverseKinematics(QObject *parent) : QObject(parent)
 
 InverseKinematics::~InverseKinematics()
 {
-//    qDebug("deleting dynamic arrays");
-//    delete[] q;
-//    delete[] v;
-//    delete[] a;
-//    delete[] j;
+    qDebug("deleting dynamic arrays");
+    delete[] q;
+    delete[] v;
+    delete[] a;
+    delete[] j;
 
 }
 
@@ -345,10 +345,15 @@ int InverseKinematics:: base() {
 
     QString log1="calculation completed. teta[0]="+QString::number(teta[0])+" teta[1]="+QString::number(teta[1])+" teta[2]="+QString::number(teta[2]);
     QString log2="teta2[0]="+QString::number(teta2[0])+" teta2[1]="+QString::number(teta2[1])+" teta2[2]="+QString::number(teta2[2]);
-    QString log3=" teta3[0]="+QString::number(teta3[0])+" teta3[1]="+QString::number(teta3[1])+" teta3[2]="+QString::number(teta3[2]);
+    QString log3="teta3[0]="+QString::number(teta3[0])+" teta3[1]="+QString::number(teta3[1])+" teta3[2]="+QString::number(teta3[2]);
     QString log4="finalTeta[0]="+QString::number(finalTeta[0])+" finalTeta[1]="+QString::number(finalTeta[1])+" finalTeta[2]="+QString::number(finalTeta[2]);
     qDebug(log1.toLatin1());
     qDebug(log2.toLatin1());
     qDebug(log3.toLatin1());
     qDebug(log4.toLatin1());
+
+    //TODO: ask about the seven segment outputs
+    //TODO: use load trajectory class to send array of angles
+    //TODO: change run method of load trajectory to consider arrays
+    //TODO: repeatedly call send data of send command to send all angles
 }

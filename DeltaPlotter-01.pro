@@ -33,7 +33,8 @@ SOURCES += \
     plothandler.cpp \
     sendcommand.cpp \
     trajectorysender.cpp \
-    dialog_loadpoints.cpp
+    dialog_loadpoints.cpp \
+    inversekinematics.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     plothandler.h \
     sendcommand.h \
     trajectorysender.h \
-    dialog_loadpoints.h
+    dialog_loadpoints.h \
+    inversekinematics.h
 
 FORMS += \
         mainwindow.ui \
@@ -56,3 +58,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES +=
 
 DISTFILES +=
+
+INCLUDEPATH +=/home/taraneh/Documents/CppLibrary/eigen-eigen-323c052e1731/
