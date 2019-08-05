@@ -7,6 +7,33 @@ TrajectorySender::TrajectorySender(QString trajectoryFilePath, int numberOfDrive
     this->start();
 }
 
+TrajectorySender::TrajectorySender(float x_start, float y_start, float z_start, float x_end, float y_end, float z_end)
+{
+    is_in_kinematics_state = true;
+    initial = new KinematicsState();
+    initial->x = x_start;
+    initial->y = y_start;
+    initial->z = z_start;
+
+
+    final = new KinematicsState();
+    final->x = x_end;
+    final->y = y_end;
+    final->z = z_end;
+
+    this->start();
+}
+
+//TrajectorySender::TrajectorySender(QVector<QVector<double>> &points_for_drives)
+//{
+//    this->send_array=1;
+//    this->arrayPoints=points_for_drives;
+//    this->start();
+//}
+void TrajectorySender:: startSendingArrayPointsSlot()
+{
+
+}
 int TrajectorySender::getNumberOfPoint()
 {
     return numberOfPoint;
@@ -77,6 +104,21 @@ void TrajectorySender::loadPointFromCsv(){
 
 }
 
+void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_drives)
+{
+    /*should we check if all vectors inside points_for_drives have the same size?*/
+
+    if(points_for_drives.size()!=3)
+    {
+        qDebug("cannot send array points: number of drives must be 4");
+        quit();
+    }
+
+    for (int i = 0; i < points_for_drives[0].size(); ++i) {
+       SendCommand::getInstance()->SendPointTo3Drives(points_for_drives[0][i],points_for_drives[1][i],points_for_drives[2][i]);
+    }
+}
+
 void TrajectorySender::sendPointsToDrives(){
     if (numberOfDrive != 4) {
         qDebug("we can't run this trajectroy ");
@@ -89,7 +131,51 @@ void TrajectorySender::sendPointsToDrives(){
 
 void TrajectorySender::run()
 {
+
     qDebug("runn...");
+    if (is_in_kinematics_state) {
+        if(!is_initiated){
+            emit startedSendingArrayPoints();
+           KinematicsState* test = new KinematicsState();
+           test->Interpolation(*initial, *final);
+           QVector<QVector<double>>points_for_all_drives;
+
+
+           for(int i=0;i<3;i++)
+           {
+               points_for_all_drives.push_back(QVector<double>());
+           }
+           int size_of_queues=initial->size;
+           QString s=QString::number(initial->q1[0]);
+           qDebug("first element: "+s.toLatin1());
+           //TODO: check i later: 0 or 1?
+           for(int i=1;i<10;i++)
+           {
+               points_for_all_drives[0].push_back(initial->q1[i]);
+               points_for_all_drives[1].push_back(initial->q2[i]);
+               points_for_all_drives[2].push_back(initial->q3[i]);
+           }
+
+
+           sendPointsToDrives(points_for_all_drives);
+
+           emit finishedSendingArrayPoints();
+
+           delete initial;
+           delete final;
+//           delete test;
+        }else{
+
+            emit startedSendingArrayPoints();
+            sendPointsToDrives(this->arrayPoints);
+            emit finishedSendingArrayPoints();
+        }
+
+
+
+        return;
+    }
+
     if (!is_initiated) {
         loadPointFromCsv();
         is_initiated = true;
@@ -103,6 +189,14 @@ void TrajectorySender::run()
         sendPointsToDrives();
         emit finishedSendingPoints();
     }
+//    else {
+
+//        //send array=true
+//        emit startedSendingArrayPoints();
+//        sendPointsToDrives(this->arrayPoints);
+//        emit finishedSendingArrayPoints();
+
+//    }
 }
 
 const char* getfield(char* line, int num)

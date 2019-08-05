@@ -372,15 +372,19 @@ void MainWindow::hidePositionElements()
 void MainWindow::sendPositionSlot()
 {
     qDebug("send position slot called");
-    QString xPos=textEdit_xPos->toPlainText();
-    QString yPos=textEdit_yPos->toPlainText();
-    QString zPos=textEdit_zPos->toPlainText();
 
-    float x=xPos.toFloat();
-    float y=yPos.toFloat();
-    float z=zPos.toFloat();
+    double x=textEdit_xPos->toPlainText().toDouble();
+    double y=textEdit_yPos->toPlainText().toDouble();
+    double z=textEdit_zPos->toPlainText().toDouble();
 
     qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
+
+    //TODO: store drive current position and provide them as intial coordiantes
+    TrajectorySender *ts = new TrajectorySender(0,0,-0.8,x,y,z);
+    QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
+    QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
+
+
 }
 
 
@@ -499,8 +503,19 @@ void MainWindow::on_btn_subtractJogdrive4_released()
 
 void MainWindow::on_btn_loadTrajectory_clicked()
 {
-     hideJogUIElements();
-     hideGoHomeElements();
+     //hideJogUIElements();
+    ui->btn_addJog_drive1->hide();
+    ui->btn_addJog_drive2->hide();
+    ui->btn_addJog_drive3->hide();
+    ui->btn_addJog_drive4->hide();
+
+    ui->btn_subtractJog_drive1->hide();
+    ui->btn_subtractJog_drive2->hide();
+    ui->btn_subtractJog_drive3->hide();
+    ui->btn_subtractJog_drive4->hide();
+
+
+    hideGoHomeElements();
      hidePositionElements();
 
      showLoadFileElement();
@@ -508,7 +523,15 @@ void MainWindow::on_btn_loadTrajectory_clicked()
 
 void MainWindow::on_btn_goHome_clicked()
 {
-    hideJogUIElements();
+    ui->btn_addJog_drive1->hide();
+    ui->btn_addJog_drive2->hide();
+    ui->btn_addJog_drive3->hide();
+    ui->btn_addJog_drive4->hide();
+
+    ui->btn_subtractJog_drive1->hide();
+    ui->btn_subtractJog_drive2->hide();
+    ui->btn_subtractJog_drive3->hide();
+    ui->btn_subtractJog_drive4->hide();
     hideLoadFileElement();
     hidePositionElements();
 

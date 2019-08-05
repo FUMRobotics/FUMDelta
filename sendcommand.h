@@ -40,6 +40,7 @@ typedef struct msgbuf {
     void SendPosition(int drive_id, int data);
     void GoHome(int drive_id);
     void SendPointTo4Drives(double p0 , double p1, double p2, double p3);
+    void SendPointTo3Drives(double p0, double p1, double p2);
     int32_t degree_to_motor_position(double point);
 
 

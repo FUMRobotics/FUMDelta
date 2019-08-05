@@ -34,7 +34,9 @@ SOURCES += \
     sendcommand.cpp \
     trajectorysender.cpp \
     dialog_loadpoints.cpp \
-    inversekinematics.cpp
+    inversekinematics.cpp \
+    sevensegment.cpp \
+    kinematicsstate.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +46,9 @@ HEADERS += \
     sendcommand.h \
     trajectorysender.h \
     dialog_loadpoints.h \
-    inversekinematics.h
+    inversekinematics.h \
+    sevensegment.h \
+    kinematicsstate.h
 
 FORMS += \
         mainwindow.ui \
@@ -59,4 +63,4 @@ RESOURCES +=
 
 DISTFILES +=
 
-INCLUDEPATH +=/home/taraneh/Documents/CppLibrary/eigen-eigen-323c052e1731/
+INCLUDEPATH +=/home/fumdelta/Documents/eigen-eigen-323c052e1731/

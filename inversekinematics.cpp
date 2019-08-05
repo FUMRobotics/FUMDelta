@@ -355,5 +355,6 @@ int InverseKinematics:: base() {
     //TODO: ask about the seven segment outputs
     //TODO: use load trajectory class to send array of angles
     //TODO: change run method of load trajectory to consider arrays
-    //TODO: repeatedly call send data of send command to send all angles
+    //TODO: ask if the points array must be a class attribute in trajectory sender
+    //TODO: repeatedly call send data of send command to send all angles [DONE]
 }

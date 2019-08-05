@@ -61,7 +61,7 @@ void SendCommand::SendData(SendCommand::message_buf msg)
     size_t msgSize;
    /* size of data = size of structure - size of mtype */
     msgSize = sizeof(struct msgbuf) - sizeof(long);
-    if (msgsnd(msqid, &msg, msgSize, IPC_NOWAIT) < 0)
+    if (msgsnd(msqid, &msg, msgSize, 0) < 0)
     {
             //    printf ("%d, %d, %s, %d\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
                 perror("msgsnd");
@@ -108,6 +108,30 @@ void SendCommand::SendPointTo4Drives(double p0, double p1, double p2, double p3)
 
     sbuf.opCode[3]=1;
     sbuf.data[3]=degree_to_motor_position(p3);
+
+
+    SendData(sbuf);
+}
+
+void SendCommand::SendPointTo3Drives(double p0, double p1, double p2)
+{
+    message_buf sbuf;
+    //size_t buf_length;
+
+    sbuf.mtype = 1;
+
+    sbuf.opCode[0]=1;
+    sbuf.data[0]=degree_to_motor_position(p0);
+
+    sbuf.opCode[1]=1;
+    sbuf.data[1]=degree_to_motor_position(p1);;
+
+    sbuf.opCode[2]=1;
+    sbuf.data[2]=degree_to_motor_position(p2);
+
+    //dummy values
+    sbuf.opCode[3]=0;
+    //sbuf.data[3]=degree_to_motor_position();
 
 
     SendData(sbuf);
