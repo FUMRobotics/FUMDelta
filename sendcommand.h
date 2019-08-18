@@ -27,8 +27,8 @@ typedef struct msgbuf {
     /* Data */
     long    update_period;
 
-    int    opCode[4];
-    int    data[4];
+    int32_t    opCode[4];
+    int32_t    data[4];
  } message_buf;
 
 

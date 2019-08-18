@@ -37,7 +37,7 @@ private:
 public:
     explicit Receiver(QObject *parent = nullptr);
     void print_config(void);
-    static void signal_handler(int sig)
+    static void signal_handler()
     {
 
         printf("Removing the queue...\n");

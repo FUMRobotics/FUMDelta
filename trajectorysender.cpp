@@ -7,19 +7,17 @@ TrajectorySender::TrajectorySender(QString trajectoryFilePath, int numberOfDrive
     this->start();
 }
 
-TrajectorySender::TrajectorySender(float x_start, float y_start, float z_start, float x_end, float y_end, float z_end)
+TrajectorySender::TrajectorySender(double x_start, double y_start, double z_start, double x_end, double y_end, double z_end)
 {
     is_in_kinematics_state = true;
-    initial = new KinematicsState();
-    initial->x = x_start;
-    initial->y = y_start;
-    initial->z = z_start;
 
+    this->x_start=x_start;
+    this->y_start=y_start;
+    this->z_start=z_start;
 
-    final = new KinematicsState();
-    final->x = x_end;
-    final->y = y_end;
-    final->z = z_end;
+    this->x_end=x_end;
+    this->y_end=y_end;
+    this->z_end=z_end;
 
     this->start();
 }
@@ -47,6 +45,9 @@ int TrajectorySender::getTimeOfTrajectory()
 
 void TrajectorySender::loadPointFromCsv(){
     //load file from trajectoryFilePath
+
+    qDebug("loading points from csv");
+
     for (int var = 0; var < numberOfDrive; ++var) {
         loadedPoints.push_back(QVector<double>());
     }
@@ -108,6 +109,8 @@ void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_d
 {
     /*should we check if all vectors inside points_for_drives have the same size?*/
 
+    qDebug("started sending points to drives");
+
     if(points_for_drives.size()!=3)
     {
         qDebug("cannot send array points: number of drives must be 4");
@@ -116,6 +119,7 @@ void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_d
 
     for (int i = 0; i < points_for_drives[0].size(); ++i) {
        SendCommand::getInstance()->SendPointTo3Drives(points_for_drives[0][i],points_for_drives[1][i],points_for_drives[2][i]);
+
     }
 }
 
@@ -135,25 +139,83 @@ void TrajectorySender::run()
     qDebug("runn...");
     if (is_in_kinematics_state) {
         if(!is_initiated){
-            emit startedSendingArrayPoints();
-           KinematicsState* test = new KinematicsState();
-           test->Interpolation(*initial, *final);
+           qDebug("entered kinematic state");
+           emit startedSendingArrayPoints();
+//           KinematicsState* test = new KinematicsState();
+//           test->Interpolation(*initial, *final);
+//           QVector<QVector<double>>points_for_all_drives;
+
+
+//           for(int i=0;i<3;i++)
+//           {
+//               points_for_all_drives.push_back(QVector<double>());
+//               qDebug("added qvector");
+//           }
+////           int size_of_queues=initial->size;
+////           QString s=QString::number(initial->q1[0]);
+////           qDebug("first element: "+s.toLatin1());
+//           //TODO: check i later: 0 or 1?
+//           for(int i=1;i<test->size;i++)
+//           {
+//               points_for_all_drives[0].push_back(test->q1[i]);
+//               points_for_all_drives[1].push_back(test->q2[i]);
+//               points_for_all_drives[2].push_back(test->q3[i]);
+//           }
+
+
+//           sendPointsToDrives(points_for_all_drives);
+
+//           emit finishedSendingArrayPoints();
+
+//           delete initial;
+//           delete final;
+//           delete test;
+
+
+
+           double inverse_start_output[3];
+           double inverse_end_output[3];
+           InverseKinematicsCore core;
+
+           //provide inverse kinematics with start and final positions
+           core.InverseKinematicsNew(x_start, y_start, z_start, inverse_start_output);
+           core.InverseKinematicsNew(x_end, y_end, z_end, inverse_end_output);
+           //in this point we have start and end degree
+
+           //sevenseg
+           SevenSegment M1;
+           SevenSegment M2;
+           SevenSegment M3;
+
+           M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 350, 10, 100, 0.001, 0.999);
+           M2.seven_segment(inverse_start_output[1], inverse_end_output[1], 0, 0, 350, 10, 100, 0.001, 0.999);
+           M3.seven_segment(inverse_start_output[2], inverse_end_output[2], 0, 0, 350, 10, 100, 0.001, 0.999);
+           double* q1 = 0;
+           double* q2 = 0;
+           double* q3 = 0;
+
+           ////interpolate
+           core.Interpolation(M1, M2, M3, &q1, &q2, &q3);
+
+           //all queues are filled now
+           //send points as messages
+
            QVector<QVector<double>>points_for_all_drives;
 
 
            for(int i=0;i<3;i++)
            {
                points_for_all_drives.push_back(QVector<double>());
+               //qDebug("added qvector");
            }
-           int size_of_queues=initial->size;
-           QString s=QString::number(initial->q1[0]);
-           qDebug("first element: "+s.toLatin1());
+           int size_of_queues=core.size_of_trajectory_points;
+
            //TODO: check i later: 0 or 1?
-           for(int i=1;i<10;i++)
+           for(int i=1;i<size_of_queues;i++)
            {
-               points_for_all_drives[0].push_back(initial->q1[i]);
-               points_for_all_drives[1].push_back(initial->q2[i]);
-               points_for_all_drives[2].push_back(initial->q3[i]);
+               points_for_all_drives[0].push_back(q1[i]);
+               points_for_all_drives[1].push_back(q2[i]);
+               points_for_all_drives[2].push_back(q3[i]);
            }
 
 
@@ -161,9 +223,15 @@ void TrajectorySender::run()
 
            emit finishedSendingArrayPoints();
 
-           delete initial;
-           delete final;
-//           delete test;
+
+           delete[] q1;
+           delete[] q2;
+           delete[] q3;
+
+
+
+
+
         }else{
 
             emit startedSendingArrayPoints();
@@ -178,6 +246,7 @@ void TrajectorySender::run()
 
     if (!is_initiated) {
         loadPointFromCsv();
+        qDebug("loaded points from csv");
         is_initiated = true;
         QString s="trajectory side, points="+QString::number(getNumberOfPoint())+"time= "+QString::number(getTimeOfTrajectory());
         qDebug(s.toLatin1());
@@ -185,9 +254,11 @@ void TrajectorySender::run()
         qDebug(log.toLatin1());
         emit finishedLoading(getNumberOfPoint(),getTimeOfTrajectory());
     }else{
+        qDebug("trajectory sender side, started sending points");
         emit startedSendingPoints();
         sendPointsToDrives();
         emit finishedSendingPoints();
+        qDebug("trajectory sender side, finished sending points");
     }
 //    else {
 

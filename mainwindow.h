@@ -80,7 +80,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
-    int jog_value=150000;
+    int jog_value=15000;
     Dialog_LoadPoints* dialog_loading;
     //QVector<bool> isGoingHome;
 

@@ -5,15 +5,15 @@
 #include <QThread>
 #include <QVector>
 #include "sendcommand.h"
-#include "kinematicsstate.h"
+#include "inversekinematicscore.h"
 
 class TrajectorySender : public QThread
 {
     Q_OBJECT
 public:
     explicit TrajectorySender(QString fileName, int numberOfDrive,QObject *parent = nullptr);
-    TrajectorySender(float x_start, float y_start,float z_start,
-                     float x_end,   float y_end,  float z_end);
+    TrajectorySender(double x_start, double y_start,double z_start,
+                     double x_end,   double y_end,  double z_end);
     int getNumberOfPoint();
     int getTimeOfTrajectory();
     void loadPointFromCsv();
@@ -37,9 +37,18 @@ private:
     int numberOfDrive = 0;
     bool is_initiated = 0;
     bool is_in_kinematics_state = 0;
-    KinematicsState* initial;
-    KinematicsState* final;
+
+    double x_start;
+    double y_start;
+    double z_start;
+
+    double x_end;
+    double y_end;
+    double z_end;
+
+
     int NUMBER_OF_motorpuls =524288;
+
     QVector<QVector<double>> loadedPoints;
     QVector<QVector<double>> arrayPoints;
     QString trajectoryFilePath;

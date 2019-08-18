@@ -12,13 +12,11 @@ void Receiver::run()
 Receiver::Receiver(QObject *parent) : QThread (parent)
 {
     qDebug("listening...");
-
 }
-void Receiver:: print_config(void)
+void Receiver::print_config(void)
 {
     qDebug("\nLOG is defined. Number of cycles = %ld\n", NUMBER_OF_CYCLES);
     qDebug("FLUSH_CYCLE = %d\n\n", FLUSH_CYCLE);
-
 }
 
 Receiver::~Receiver()
@@ -37,7 +35,7 @@ Receiver::~Receiver()
 
 double Receiver::motor_to_degree_position(int32_t point)
 {
-    return (float)((float)point * (float)360 /(float)NUMBER_OF_motorpuls);
+    return (point * 360 /static_cast<double>(NUMBER_OF_motorpuls));
 }
 
 void Receiver::calculate_motor_to_degree_array(int32_t points[4], double *ret_data){
@@ -156,17 +154,17 @@ void Receiver::receiverBase()
                 switch (errno) {
                     case E2BIG: qDebug("The length of mtext is greater than msgsz and (msgflg & MSG_NOERROR) is zero.");
                     break;
-                    case EACCES:  qDebug("Operation permission is denied to the calling process. ");
+                    case EACCES: qDebug("Operation permission is denied to the calling process. ");
                     break;
                     case EFAULT: qDebug("msgp is an invalid pointer. ");
                     break;
                     case EIDRM:  qDebug("msqid was removed.");
                     break;
-                    case EINTR:  qDebug("A signal interrupted the call.");
+                    case EINTR: qDebug("A signal interrupted the call.");
                     break;
-                    case EINVAL:  qDebug("msgsz is less than 0. OR msqid is not a valid message queue identifier.");
+                    case EINVAL: qDebug("msgsz is less than 0. OR msqid is not a valid message queue identifier.");
                     break;
-                    case ENOMSG:  qDebug("The queue does not contain a message of the desired type and (msgtyp & IPC_NOWAIT) is non-zero.");
+                    case ENOMSG: qDebug("The queue does not contain a message of the desired type and (msgtyp & IPC_NOWAIT) is non-zero.");
                     break;
 
                 }
@@ -194,7 +192,7 @@ void Receiver::receiverBase()
 
                 calculate_motor_to_degree_vector(recvdMsg.actPos, &act_actpos);
                 calculate_motor_to_degree_vector(recvdMsg.targetPos, &target_actpos);
-                emit newMessage(messageCounter,act_actpos, target_actpos);
+                emit newMessage(messageCounter,target_actpos, act_actpos);
             }
             messageCounter++;
             fprintf(fp, "%ld,%ld,%ld,%f,%f\n", recvdMsg.updatePeriod ,recvdMsg.actPos[0] ,recvdMsg.targetPos[0] ,motor_to_degree_position(recvdMsg.actPos[0]) , motor_to_degree_position(recvdMsg.targetPos[0])

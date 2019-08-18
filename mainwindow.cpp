@@ -58,6 +58,19 @@ void MainWindow::finishedSendingPoints()
 {
     qDebug("set buttons enable");
     setButtonsEnable(true);
+
+    //13980524: massive trajectory test
+
+//    TrajectorySender *ts = new TrajectorySender("/home/fumdelta/point.csv", 4);
+//    qDebug("massive trajectory test");
+//    dialog_loading=new Dialog_LoadPoints(ts);
+//    QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
+//    QObject::connect(ts,&TrajectorySender::startedSendingPoints,this, &MainWindow::startedSendingPoints);
+//    QObject::connect(ts,&TrajectorySender::finishedSendingPoints,this, &MainWindow::finishedSendingPoints);
+
+//    dialog_loading->setModal(true);
+//    dialog_loading->exec();
+
 }
 
 void MainWindow::goHome_slot_drive_1()
@@ -377,13 +390,22 @@ void MainWindow::sendPositionSlot()
     double y=textEdit_yPos->toPlainText().toDouble();
     double z=textEdit_zPos->toPlainText().toDouble();
 
-    qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
+    if(!InverseKinematicsCore::isPositionValid(x,y,z)){
+        textEdit_xPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        textEdit_yPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        textEdit_zPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+    }
+    else{
+        qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
+        textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        textEdit_zPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        //TODO: store drive current position and provide them as intial coordiantes
+        TrajectorySender *ts = new TrajectorySender(0,0,-0.8,x,y,z);
+        QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
+        QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
 
-    //TODO: store drive current position and provide them as intial coordiantes
-    TrajectorySender *ts = new TrajectorySender(0,0,-0.8,x,y,z);
-    QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
-    QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
-
+    }
 
 }
 

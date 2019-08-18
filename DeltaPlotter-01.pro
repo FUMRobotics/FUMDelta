@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT += testlib
+QT += concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 
@@ -34,9 +35,11 @@ SOURCES += \
     sendcommand.cpp \
     trajectorysender.cpp \
     dialog_loadpoints.cpp \
-    inversekinematics.cpp \
+    inversekinematicscore.cpp \
     sevensegment.cpp \
-    kinematicsstate.cpp
+    dialog_take_drives_home.cpp \
+    kinematicsexception.cpp \
+    test/test.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -46,13 +49,15 @@ HEADERS += \
     sendcommand.h \
     trajectorysender.h \
     dialog_loadpoints.h \
-    inversekinematics.h \
+    inversekinematicscore.h \
     sevensegment.h \
-    kinematicsstate.h
+    kinematicsexception.h\
+    dialog_take_drives_home.h
 
 FORMS += \
         mainwindow.ui \
-    dialog_loadpoints.ui
+    dialog_loadpoints.ui \
+    dialog_take_drives_home.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

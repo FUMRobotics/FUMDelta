@@ -5,23 +5,23 @@ SevenSegment::SevenSegment(QObject *parent) : QObject(parent)
 
 }
 
-void SevenSegment::calculate(float q0, float q1, float v0, float v1, float vmax, float amax, float jmax, float dt, float lamda)
+void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, double vmax, double amax, double jmax, double dt, double lamda)
 {
-    float dist = q1 - q0;
-    float Tj1; //time - interval in which the jerk is constant  during acc
-    float Tj2;  //time-interval in which the jerk is constant during dec
-    float Td; // time interval of dec
-    float Ta; // time interval of acc
-    float Tv; // constant velocity period
-    float T;
+    double dist = q1 - q0;
+    double Tj1; //time - interval in which the jerk is constant  during acc
+    double Tj2;  //time-interval in which the jerk is constant during dec
+    double Td; // time interval of dec
+    double Ta; // time interval of acc
+    double Tv; // constant velocity period
+    double T;
 
 
-    if (dist == 0) {
+    if (!(dist < 0 || dist > 0)) {
         timet = 0;
         qadad = q0;      // assssssssssssssssk
-        v = 0;
-        a = 0;
-        j = 0;
+        v = nullptr;
+        a = nullptr;
+        j = nullptr;
         vlim = 0;
         alima = 0;
         alimd = 0;
@@ -32,7 +32,7 @@ void SevenSegment::calculate(float q0, float q1, float v0, float v1, float vmax,
 
     // Case 1: vlim = vmax.
     // max acc has been reached
-    int sigma = signbit(dist);
+    //int sigma = signbit(dist);
     if (signbit(dist) == 1) {   // ask if zero needs to be checked too
         q0 = -1 * q0;
         q1 = -1 * q1;
@@ -44,7 +44,7 @@ void SevenSegment::calculate(float q0, float q1, float v0, float v1, float vmax,
     // has mac acc reached?
     if ((vmax - v0)*jmax < pow(amax, 2)) {
         Tj1 = sqrt((vmax - v0) / jmax);
-        Td = 2 * Tj1;
+        Ta = 2 * Tj1;
     }
     else {
         Tj1 = amax / jmax;
@@ -105,24 +105,24 @@ void SevenSegment::calculate(float q0, float q1, float v0, float v1, float vmax,
     T = Ta + Tv + Td;
     T = ceilf(T * 10000) / 10000; // checkkk
     int c = 0;
-    time = new float[(int)(T / dt)+1];
+    time = new double[(int)(T / dt)+1];
      sizeoftime = (int)(T / dt);
     //int test = sizeof(time);
     // cout << "jgfakjsdf ";
-    q = new float[(int)(T / dt)+1];
-    v = new float[(int)(T / dt )+1];
-    a = new float[(int)(T / dt)+1];
-    j = new float[(int)(T / dt)+1];
-    float temp =(int)( T / dt);
+    q = new double[(int)(T / dt)+1];
+    v = new double[(int)(T / dt )+1];
+    a = new double[(int)(T / dt)+1];
+    j = new double[(int)(T / dt)+1];
+    //double temp =(int)( T / dt);
 
 
     for (int i = 0;i < T / dt;i++) {
         time[i] = c;
         c += dt;
     }
-    float jmin = -jmax;
+    double jmin = -jmax;
      qsize = 0;
-    for (float t = 0;t < T;t += dt) {
+    for (double t = 0;t < T;t += dt) {
         //t = ceilf(t * 10000) / 10000;
 
         if (t < Tj1) {
@@ -195,20 +195,21 @@ void SevenSegment::calculate(float q0, float q1, float v0, float v1, float vmax,
 
     //cout << "dooooooooone";
     //cout << temp;
+
+
 }
 
 SevenSegment::~SevenSegment()
 {
     //cout << "remove " << q << endl;
     delete[] time;
-    time = NULL;
+    time = nullptr;
     delete[] q;
-    q = NULL;
+    q = nullptr;
     delete[] v;
-    v = NULL;
+    v = nullptr;
     delete[] a;
-    a = NULL;
+    a = nullptr;
     delete[] j;
-    j = NULL;
-    //cout << ":) ";
+    j = nullptr;
 }

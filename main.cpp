@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include "sevensegment.h"
-#include "kinematicsstate.h"
+#include "inversekinematicscore.h"
 #include "receiver.h"
 #include <QtGlobal>
 #include <stdio.h>
@@ -38,6 +38,13 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
+    //TODO : find out actual x,y,z for home(or what the drives percieve as home) the x,y,z needs to be stored and given as initial positon to inverse kinematics
+    //TODO : limit the input in positon(GUI)
+    //TODO : implement clear alarm
+    //TODO : go home for drives on startup
+
+
+
     //qInstallMessageHandler(myMessageOutput); // Install the handler
     QApplication a(argc, argv);
 //    while (1) {
@@ -57,12 +64,50 @@ int main(int argc, char *argv[])
 //        delete final;
 //        delete test;
 //            }
+//    InverseKinematicsCore core;
+
+//    core.base();
+
+
+    //TrajectorySender *ts = new TrajectorySender(0,0,-0.8,0,0,-0.85);
+
+    //start ethercat
+    QProcess *ethercatProcess=new QProcess() ;
+    QProcess process1;
+
+    process1.startDetached("/bin/sh", QStringList()<< "/home/fumdelta/start_ethercat.sh");
+
+    ethercatProcess->waitForFinished(-1); // will wait forever until finished
+    qDebug("finished waiting for ethercat startup");
+    QString output1=ethercatProcess->readAllStandardOutput();
+    QString stderr1 = ethercatProcess->readAllStandardError();
+    qDebug()<< output1  << stderr;
+
+
+    //start drives
+    //start ethercat and drives
+    QProcess *startDrivesProcess=new QProcess() ;
+    QProcess process2;
+
+    process2.startDetached("/bin/sh", QStringList()<< "/home/fumdelta/start_drivers_via_main.sh");
+
+    startDrivesProcess->waitForFinished(-1); // will wait forever until finished
+    qDebug("finished waiting for drives startup");
+    QString output2=startDrivesProcess->readAllStandardOutput();
+    QString stderr2 = startDrivesProcess->readAllStandardError();
+
+    qDebug()<< output2  << stderr;
+
     Receiver receiver;
     MainWindow w(&receiver);
 
     receiver.start();
 
     qDebug("is running...");
+
+
+
+
 
     w.show();
 

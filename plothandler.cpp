@@ -16,7 +16,7 @@ void PlotHandler::updatePlotData(unsigned int key, QVector<double> targetPositio
 {
     static int a = 0;
     a = a + 1;
-    qDebug("plotter side:MOTOR:%d message number=%d actual position= %f ,target position=%f",plot_id,key,actualPosition[plot_id], targetPosition[plot_id]);
+    //qDebug("plotter side:MOTOR:%d message number=%d actual position= %f ,target position=%f",plot_id,key,actualPosition[plot_id], targetPosition[plot_id]);
     //qDebug("plotter side: message number");
     //static QTime time(QTime::currentTime());
     // calculate two new data points:
@@ -35,8 +35,8 @@ void PlotHandler::updatePlotData(unsigned int key, QVector<double> targetPositio
     // make key axis range scroll with the data (at a constant range size of 8):
     //plot->xAxis->setRange(key, 30, Qt::AlignRight);
     /*for actual motors*/
-    //plot->xAxis->setRange(key, 30000, Qt::AlignRight);
-    plot->xAxis->setRange(key, 100, Qt::AlignRight);
+    plot->xAxis->setRange(key, 30000, Qt::AlignRight);
+    //plot->xAxis->setRange(key, 100, Qt::AlignRight);
     plot->replot();
 
     // calculate frames per second:
