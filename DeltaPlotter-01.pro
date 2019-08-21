@@ -39,7 +39,14 @@ SOURCES += \
     sevensegment.cpp \
     dialog_take_drives_home.cpp \
     kinematicsexception.cpp \
-    test/test.cpp
+    test/test.cpp \
+    codeeditor.cpp \
+    files.cpp \
+    highlighter.cpp \
+    search.cpp \
+    utils/conversion.cpp \
+    utils/templates.cpp \
+    widgets/geisttextedit.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -52,12 +59,20 @@ HEADERS += \
     inversekinematicscore.h \
     sevensegment.h \
     kinematicsexception.h\
-    dialog_take_drives_home.h
+    dialog_take_drives_home.h \
+    codeeditor.h \
+    files.h \
+    highlighter.h \
+    search.h \
+    utils/conversion.h \
+    utils/templates.h \
+    widgets/geisttextedit.h
 
 FORMS += \
-        mainwindow.ui \
     dialog_loadpoints.ui \
-    dialog_take_drives_home.ui
+    dialog_take_drives_home.ui \
+    mainwindow.ui \
+    codeeditor.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

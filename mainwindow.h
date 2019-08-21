@@ -6,6 +6,7 @@
 #include "receiver.h"
 #include "sendcommand.h"
 #include "dialog_loadpoints.h"
+#include "codeeditor.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,10 @@ public slots:
     void goHome_slot_drive_4();
     void loadTrajectory_inner_slot();
     void sendPositionSlot();
+    void hidePlots();
+    void showPlots();
+    void hideCodeEditor();
+    void showCodeEditor();
 private slots:
     void SendJog(bool sign,int drive_id);
 
@@ -77,6 +82,8 @@ private slots:
 
     void on_btn_positionControl_clicked();
 
+    void on_btn_program_clicked();
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
@@ -112,6 +119,7 @@ private:
     QTextEdit* textEdit_yPos;
     QTextEdit* textEdit_zPos;
 
+    CodeEditor* code_editor;
 
 
 

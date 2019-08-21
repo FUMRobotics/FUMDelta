@@ -234,7 +234,9 @@ void MainWindow::setUpDynamicGUIElements()
     textEdit_yPos=new QTextEdit();
     textEdit_zPos=new QTextEdit();
 
-
+   code_editor=new CodeEditor();
+   ui->horizontalLayout->addWidget(code_editor);
+   hideCodeEditor();
 
 
     textEdit_xPos->setFixedSize(QSize(50,45));
@@ -355,6 +357,7 @@ void MainWindow::setUpDynamicGUIElements()
     ui->btn_jogControl->setMinimumSize(QSize(100,100));
     ui->btn_loadTrajectory->setMinimumSize(QSize(100,100));
     ui->btn_positionControl->setMinimumSize(QSize(100,100));
+    ui->btn_program->setMinimumSize(QSize(100,100));
 
 }
 
@@ -407,6 +410,40 @@ void MainWindow::sendPositionSlot()
 
     }
 
+}
+
+void MainWindow::hidePlots()
+{
+    ui->drive1->hide();
+    ui->drive2->hide();
+    ui->drive3->hide();
+    ui->drive4->hide();
+    ui->label_totalPoints_drive1->hide();
+    ui->label_totalPoints_drive2->hide();
+    ui->label_totalPoints_drive3->hide();
+    ui->label_totalPoints_drive4->hide();
+}
+
+void MainWindow::showPlots()
+{
+    ui->drive1->show();
+    ui->drive2->show();
+    ui->drive3->show();
+    ui->drive4->show();
+    ui->label_totalPoints_drive1->show();
+    ui->label_totalPoints_drive2->show();
+    ui->label_totalPoints_drive3->show();
+    ui->label_totalPoints_drive4->show();
+}
+
+void MainWindow::hideCodeEditor()
+{
+    code_editor->hide();
+}
+
+void MainWindow::showCodeEditor()
+{
+    code_editor->show();
 }
 
 
@@ -525,38 +562,41 @@ void MainWindow::on_btn_subtractJogdrive4_released()
 
 void MainWindow::on_btn_loadTrajectory_clicked()
 {
-     //hideJogUIElements();
-    ui->btn_addJog_drive1->hide();
-    ui->btn_addJog_drive2->hide();
-    ui->btn_addJog_drive3->hide();
-    ui->btn_addJog_drive4->hide();
+     hideJogUIElements();
+//    ui->btn_addJog_drive1->hide();
+//    ui->btn_addJog_drive2->hide();
+//    ui->btn_addJog_drive3->hide();
+//    ui->btn_addJog_drive4->hide();
 
-    ui->btn_subtractJog_drive1->hide();
-    ui->btn_subtractJog_drive2->hide();
-    ui->btn_subtractJog_drive3->hide();
-    ui->btn_subtractJog_drive4->hide();
+//    ui->btn_subtractJog_drive1->hide();
+//    ui->btn_subtractJog_drive2->hide();
+//    ui->btn_subtractJog_drive3->hide();
+//    ui->btn_subtractJog_drive4->hide();
 
 
-    hideGoHomeElements();
+     hideGoHomeElements();
      hidePositionElements();
-
+     hideCodeEditor();
+     showPlots();
      showLoadFileElement();
 }
 
 void MainWindow::on_btn_goHome_clicked()
 {
-    ui->btn_addJog_drive1->hide();
-    ui->btn_addJog_drive2->hide();
-    ui->btn_addJog_drive3->hide();
-    ui->btn_addJog_drive4->hide();
+    hideJogUIElements();
+//    ui->btn_addJog_drive1->hide();
+//    ui->btn_addJog_drive2->hide();
+//    ui->btn_addJog_drive3->hide();
+//    ui->btn_addJog_drive4->hide();
 
-    ui->btn_subtractJog_drive1->hide();
-    ui->btn_subtractJog_drive2->hide();
-    ui->btn_subtractJog_drive3->hide();
-    ui->btn_subtractJog_drive4->hide();
+//    ui->btn_subtractJog_drive1->hide();
+//    ui->btn_subtractJog_drive2->hide();
+//    ui->btn_subtractJog_drive3->hide();
+//    ui->btn_subtractJog_drive4->hide();
     hideLoadFileElement();
     hidePositionElements();
-
+    hideCodeEditor();
+    showPlots();
     showGoHomeElements();
 }
 
@@ -565,7 +605,8 @@ void MainWindow::on_btn_jogControl_clicked()
     hideGoHomeElements();
     hideLoadFileElement();
     hidePositionElements();
-
+    hideCodeEditor();
+    showPlots();
     showJogUIElements();
 }
 
@@ -574,6 +615,17 @@ void MainWindow::on_btn_positionControl_clicked()
     hideJogUIElements();
     hideGoHomeElements();
     hideLoadFileElement();
-
+    hideCodeEditor();
+    showPlots();
     showPositionElements();
+}
+
+void MainWindow::on_btn_program_clicked()
+{
+    hidePlots();
+    hideJogUIElements();
+    hideGoHomeElements();
+    hideLoadFileElement();
+    hidePositionElements();
+    showCodeEditor();
 }
