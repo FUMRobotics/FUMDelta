@@ -6,6 +6,8 @@
 #include <QShortcut>
 #include "QSettings"
 #include <QPlainTextEdit>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include "files.h"
 #include "search.h"
@@ -24,6 +26,8 @@ public:
     explicit CodeEditor(QWidget *parent = 0);
     ~CodeEditor();
     void openWith(QString);
+private:
+    QAbstractItemModel *modelFromFile(const QString& fileName);
 
 private slots:
     void save();
@@ -186,6 +190,8 @@ private:
     QString currentSearchTerm;  // Current Value Of Search Term
     QStringList foundPositions; // Positions Of Substrings Matching Search Term
     QColor lineColor;
+
+    QCompleter* completer;
 
 };
 

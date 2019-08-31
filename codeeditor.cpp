@@ -46,6 +46,16 @@ CodeEditor::CodeEditor(QWidget *parent) :
     ui->replaceAllButton->hide();
     ui->replaceLabel->hide();
 
+    // Create And Setup Initial Tab
+    newTab();
+
+    completer=new QCompleter(this);
+    completer->setModel(modelFromFile("/home/fumdelta/Documents/FumDelta/WordList/wordlist.txt"));
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setWrapAround(false);
+    currentEditorWidget->setCompleter(completer);
+
     // Set Theme From Settings
     theme = settings.value("theme", "monokai").toString();
     if (theme == "monokai"){
@@ -60,8 +70,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
         on_actionTommorrow_Night_triggered();
     }
 
-    // Create And Setup Initial Tab
-    newTab();
+
     connect(currentEditorWidget, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
     currentEditorWidget->setFocus();
     highlightCurrentLine();
@@ -852,6 +861,7 @@ void CodeEditor::on_actionDark_triggered()
     setTabWidgetStyle(fgc, bgc);
     setLineNumStyle(lc, fgc);
     setOverViewStyle(lc, fgc);
+    currentEditorWidget->setStyle("#c4c8ab","#5D5D5D","#2d2e25");
 
     updateHighlighterTheme();
 
@@ -873,7 +883,7 @@ void CodeEditor::on_actionSolarized_triggered()
     setTabWidgetStyle(fgc, bgc);
     setLineNumStyle(lc, fgc);
     setOverViewStyle(lc, fgc);
-
+    currentEditorWidget->setStyle(lc,"#8f8b80","#35342f");
     updateHighlighterTheme();
 
     lineColor = QColor(238, 232, 213);
@@ -892,6 +902,7 @@ void CodeEditor::on_actionSolarized_Dark_triggered()
     setTabWidgetStyle(fgc, bgc);
     setLineNumStyle(lc, fgc);
     setOverViewStyle(lc, fgc);
+    currentEditorWidget->setStyle("#14a4c9","#004b5f","#03181e");
 
     updateHighlighterTheme();
 
@@ -911,6 +922,7 @@ void CodeEditor::on_actionTommorrow_triggered()
     setTabWidgetStyle(fgc, bgc);
     setLineNumStyle(lc, fgc);
     setOverViewStyle(lc, fgc);
+    currentEditorWidget->setStyle("#efefef","#6b5a5a","#362d2d");
 
     updateHighlighterTheme();
 
@@ -930,6 +942,7 @@ void CodeEditor::on_actionTommorrow_Night_triggered()
     setTabWidgetStyle(fgc, bgc);
     setLineNumStyle(lc, fgc);
     setOverViewStyle(lc, fgc);
+    currentEditorWidget->setStyle("#c5c8c6","#3a434b","#1d1f21");
 
     updateHighlighterTheme();
 
@@ -1116,4 +1129,27 @@ void CodeEditor::on_action2_triggered()
 
 void CodeEditor::openWith(QString file){
     open(file);
+}
+
+QAbstractItemModel *CodeEditor::modelFromFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly))
+        return new QStringListModel(completer);
+
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+#endif
+    QStringList words;
+
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty())
+            words << line.trimmed();
+    }
+
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
+    return new QStringListModel(words, completer);
 }

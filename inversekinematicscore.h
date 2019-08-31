@@ -19,12 +19,12 @@ class InverseKinematicsCore
 public:
     InverseKinematicsCore();
     double cosd(double a) {
-        double degree = a*3.14159265358979323846 / 180;
+        double degree = a*(3.14159265358979323846 / 180);
         return cos(degree);
 
     }
     double sind(double a) {
-        double degree = a*3.14159265358979323846 / 180;
+        double degree = a*(3.14159265358979323846 / 180);
         return sin(degree);
 
     }

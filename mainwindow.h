@@ -114,6 +114,10 @@ private:
     //button for load file
     QPushButton* btn_loadFile_inner;
 
+    //button for program
+    QPushButton* btn_run;
+
+
     //text edits for position controls
     QTextEdit* textEdit_xPos;
     QTextEdit* textEdit_yPos;

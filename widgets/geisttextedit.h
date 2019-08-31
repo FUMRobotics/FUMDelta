@@ -2,6 +2,9 @@
 #define GeistTextEdit_H
 
 #include <QPlainTextEdit>
+#include <QCompleter>
+#include <QAbstractItemView>
+#include <QScrollBar>
 #include "highlighter.h"
 
 class GeistTextEdit : public QPlainTextEdit
@@ -25,16 +28,25 @@ public:
     void swapLineUp();
     void swapLineDown();
     void toggleComment();
+    void setCompleter(QCompleter *completer);
+    QCompleter *completer() const;
+    void setStyle(QString fontColor,QString backgroundColor,QString selectedItemBackgroundColor);
+    void setStyle(QString fontColor,QString backgroundColor);
+
 
 protected:
     virtual void keyPressEvent(QKeyEvent * e);
 
 public slots:
-
+private slots:
+    void insertCompletion(const QString &completion);
+private:
+    QString textUnderCursor() const;
 private:
     QString filepath;
     QString fileType;
     Highlighter * highlighter;
+    QCompleter* c;
 
 };
 

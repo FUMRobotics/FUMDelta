@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>961</width>
+    <width>983</width>
     <height>569</height>
    </rect>
   </property>
@@ -572,7 +572,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>961</width>
+     <width>983</width>
      <height>22</height>
     </rect>
    </property>
@@ -615,12 +615,6 @@ background-color: rgba(255, 255, 255, 0);</string>
     <addaction name="actionAscii"/>
     <addaction name="actionHex"/>
     <addaction name="actionStrings"/>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>About</string>
-    </property>
-    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -686,7 +680,6 @@ background-color: rgba(255, 255, 255, 0);</string>
    <addaction name="menuTemplates"/>
    <addaction name="menuTools"/>
    <addaction name="menuPreferences"/>
-   <addaction name="menuAbout"/>
   </widget>
   <action name="actionOpen">
    <property name="checkable">
