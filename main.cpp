@@ -6,7 +6,7 @@
 #include <QtGlobal>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "interpretercore.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -103,6 +103,8 @@ int main(int argc, char *argv[])
 
     receiver.start();
 
+    InterpreterCore* core=new InterpreterCore();
+    core->base();
     qDebug("is running...");
 
 
