@@ -52,7 +52,9 @@ private:
    static SendCommand* instance;
    int msqid;
    int msgflg;
-   int NUMBER_OF_motorpuls =524288;
+   int NUMBER_OF_motorpulse =524287;
+   int GEARBOX_RATIO=10;
+//   int NUMBER_OF_motorpuls =524288;
    key_t key;
    explicit SendCommand(QObject *parent = nullptr);
 };

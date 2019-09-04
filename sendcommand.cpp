@@ -9,7 +9,7 @@ SendCommand::SendCommand(QObject *parent) : QObject(parent)
     msgflg = IPC_CREAT | 0666;
     key=1235;
 
-    qDebug("\nmsgget: Calling msgget(%#lx,%#o)\n",key, msgflg);
+    qDebug("msgget: Calling msgget(%#lx,%#o)", key, msgflg);
 
     if ((msqid = msgget(key, msgflg )) < 0) {
         perror("msgget");
@@ -17,7 +17,7 @@ SendCommand::SendCommand(QObject *parent) : QObject(parent)
     }
     else
     {
-        qDebug("msgget: msgget succeeded: msqid = %d\n", msqid);
+        qDebug("msgget: msgget succeeded: msqid = %d", msqid);
     }
 
 
@@ -32,7 +32,7 @@ SendCommand* SendCommand::getInstance()
     return instance;
 }
 inline int32_t SendCommand::degree_to_motor_position(double point) {
-    return (int32_t)(point * NUMBER_OF_motorpuls / 360);
+    return static_cast<int32_t>(point * NUMBER_OF_motorpulse*GEARBOX_RATIO / 360);
 }
 void SendCommand::SendJog(int drive_id, int data)
 {

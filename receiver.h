@@ -18,6 +18,8 @@
 /* For locking the program in RAM (mlockall) to prevent swapping */
 #include <sys/mman.h>
 
+#include "robotstate.h"
+
 
 class Receiver : public QThread
 {
@@ -32,7 +34,8 @@ private:
     long NUMBER_OF_CYCLES =86400000;
     /* Flush the data every ... cycle */
     int FLUSH_CYCLE =60000;
-    int NUMBER_OF_motorpuls=524288;
+    int NUMBER_OF_motorpulse=524287;
+    int GEARBOX_RATIO=10;
     void run();
 public:
     explicit Receiver(QObject *parent = nullptr);

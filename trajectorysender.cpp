@@ -1,5 +1,5 @@
 #include "trajectorysender.h"
-
+#include "robotstate.h"
 TrajectorySender::TrajectorySender(QString trajectoryFilePath, int numberOfDrive, QObject *parent) : QThread(parent)
 {
     this->numberOfDrive = numberOfDrive;
@@ -128,8 +128,10 @@ void TrajectorySender::sendPointsToDrives(){
         qDebug("we can't run this trajectroy ");
         quit(); //:)
     }
-    for (int i = 0; i < loadedPoints[0].size(); i++) {
-        SendCommand::getInstance()->SendPointTo4Drives(loadedPoints[0][i],loadedPoints[1][i],loadedPoints[2][i],loadedPoints[3][i]);
+    for (int var = 0; var < 10; var++) {
+        for (int i = 0; i < loadedPoints[0].size(); i++) {
+            SendCommand::getInstance()->SendPointTo4Drives(loadedPoints[0][i],loadedPoints[1][i],loadedPoints[2][i],loadedPoints[3][i]);
+        }
     }
 }
 
@@ -178,8 +180,17 @@ void TrajectorySender::run()
            InverseKinematicsCore core;
 
            //provide inverse kinematics with start and final positions
-           core.InverseKinematicsNew(x_start, y_start, z_start, inverse_start_output);
+           //core.InverseKinematicsNew(x_start, y_start, z_start, inverse_start_output);
+
+           RobotState::getInstance()->getAngles(inverse_start_output);
+           qDebug("fetched position in robot state: theta 1: %lf theta 2:%lf, theta 3:%lf",inverse_start_output[0],inverse_start_output[1],inverse_start_output[2]);
            core.InverseKinematicsNew(x_end, y_end, z_end, inverse_end_output);
+
+           //TODO set this after send point to drive and change physical state
+//           RobotState::getInstance()->setAllCoordinates(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],
+//                                                        x_end, y_end, z_end);
+           qDebug("newly set position in robot state: x: %lf y:%lf, z:%lf  theta 1:%lf theta 2:%lf theta 3:%lf",
+                  x_end,y_end,z_end,inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
            //in this point we have start and end degree
 
            //sevenseg
@@ -222,6 +233,7 @@ void TrajectorySender::run()
            sendPointsToDrives(points_for_all_drives);
 
            emit finishedSendingArrayPoints();
+           qDebug("emitting finished sending array points");
 
 
            delete[] q1;
