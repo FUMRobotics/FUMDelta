@@ -117,4 +117,8 @@ void PlotHandler::setUpPlot()
 
     //make plot zoomable & draggable
     plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    plot->axisRect()->setRangeZoom(Qt::Horizontal);
+    plot->axisRect()->setRangeDrag(Qt::Horizontal);
+    //plot->axisRect()->setRangeZoomAxes(plot->xAxis,plot->yAxis);
+    //plot->setRangeZoom(Qt::Horizontal);
 }

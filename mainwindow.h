@@ -7,6 +7,7 @@
 #include "sendcommand.h"
 #include "dialog_loadpoints.h"
 #include "codeeditor.h"
+#include "robotstate.h"
 
 namespace Ui {
 class MainWindow;
@@ -56,7 +57,7 @@ private slots:
 
     void on_btn_subtractJog_drive3_pressed();
 
-    void on_btn_subtractJogdrive4_pressed();
+    void on_btn_subtractJog_drive4_pressed();
 
     void on_btn_addJog_drive1_released();
 
@@ -72,7 +73,7 @@ private slots:
 
     void on_btn_subtractJog_drive3_released();
 
-    void on_btn_subtractJogdrive4_released();
+    void on_btn_subtractJog_drive4_released();
 
     void on_btn_loadTrajectory_clicked();
 
@@ -84,10 +85,13 @@ private slots:
 
     void on_btn_program_clicked();
 
+
+
+
 private:
     Ui::MainWindow *ui;
     SendCommand* send_command;
-    int jog_value=15000;
+    int jog_value=5000;
     Dialog_LoadPoints* dialog_loading;
     //QVector<bool> isGoingHome;
 

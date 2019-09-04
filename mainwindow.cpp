@@ -153,10 +153,10 @@ void MainWindow::hideJogUIElements()
     ui->btn_subtractJog_drive3->hide();
     ui->btn_subtractJog_drive4->hide();
 
-    ui->jogData_drive1->hide();
-    ui->jogData_drive2->hide();
-    ui->jogData_drive3->hide();
-    ui->jogData_drive4->hide();
+//    ui->jogData_drive1->hide();
+//    ui->jogData_drive2->hide();
+//    ui->jogData_drive3->hide();
+//    ui->jogData_drive4->hide();
 
 }
 
@@ -246,9 +246,14 @@ void MainWindow::setUpDynamicGUIElements()
 
 
 
-    textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-    textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-    textEdit_zPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+    textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 13pt \"Ubuntu\";");
+    textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 13pt \"Ubuntu\";");
+    textEdit_zPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 13pt \"Ubuntu\";");
+    textEdit_xPos->setAlignment(Qt::AlignCenter);
+    textEdit_yPos->setAlignment(Qt::AlignCenter);
+    textEdit_zPos->setAlignment(Qt::AlignCenter);
+
+
 
     label_xPos->setStyleSheet("color:rgb(238, 238, 236);font: 16pt \"Ubuntu\";");
     label_yPos->setStyleSheet("color:rgb(238, 238, 236);font: 16pt \"Ubuntu\";");
@@ -363,6 +368,10 @@ void MainWindow::setUpDynamicGUIElements()
 
 void MainWindow::showPositionElements()
 {
+    ui->jogData_drive1->hide();
+    ui->jogData_drive2->hide();
+    ui->jogData_drive3->hide();
+    ui->jogData_drive4->hide();
     label_xPos->show();
     label_yPos->show();
     label_zPos->show();
@@ -376,6 +385,10 @@ void MainWindow::showPositionElements()
 
 void MainWindow::hidePositionElements()
 {
+    ui->jogData_drive1->show();
+    ui->jogData_drive2->show();
+    ui->jogData_drive3->show();
+    ui->jogData_drive4->show();
     label_xPos->hide();
     label_yPos->hide();
     label_zPos->hide();
@@ -393,12 +406,18 @@ void MainWindow::sendPositionSlot()
     double y=textEdit_yPos->toPlainText().toDouble();
     double z=textEdit_zPos->toPlainText().toDouble();
 
+    //convert M to cm
+    x = x / 100;
+    y = y / 100;
+    z = z / 100;
     if(!InverseKinematicsCore::isPositionValid(x,y,z)){
+        qDebug("position valid");
         textEdit_xPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
         textEdit_yPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
         textEdit_zPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
     }
     else{
+        qDebug("position invalid");
         qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
         textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
         textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
@@ -438,11 +457,19 @@ void MainWindow::showPlots()
 
 void MainWindow::hideCodeEditor()
 {
+    ui->jogData_drive1->show();
+    ui->jogData_drive2->show();
+    ui->jogData_drive3->show();
+    ui->jogData_drive4->show();
     code_editor->hide();
 }
 
 void MainWindow::showCodeEditor()
 {
+    ui->jogData_drive1->hide();
+    ui->jogData_drive2->hide();
+    ui->jogData_drive3->hide();
+    ui->jogData_drive4->hide();
     code_editor->show();
 }
 
@@ -510,7 +537,7 @@ void MainWindow::on_btn_subtractJog_drive3_pressed()
     SendJog(0,2);
 }
 
-void MainWindow::on_btn_subtractJogdrive4_pressed()
+void MainWindow::on_btn_subtractJog_drive4_pressed()
 {
     SendJog(0,3);
 }
@@ -555,7 +582,7 @@ void MainWindow::on_btn_subtractJog_drive3_released()
     SendJog(1,2);
 }
 
-void MainWindow::on_btn_subtractJogdrive4_released()
+void MainWindow::on_btn_subtractJog_drive4_released()
 {
     SendJog(1,3);
 }
@@ -629,3 +656,4 @@ void MainWindow::on_btn_program_clicked()
     hidePositionElements();
     showCodeEditor();
 }
+

@@ -6,7 +6,7 @@
 
 #include "antlr4-runtime.h"
 #include "TParserListener.h"
-
+#include "generated/TLexer.h"
 
 namespace antlrcpptest {
 
@@ -20,35 +20,35 @@ public:
 
   virtual void enterModule(TParser::ModuleContext * ctx) override
     {
-        std::cout<<"Entering module"<<std::endl;
-        std::string text = ctx->getText();
+//        std::cout<<"Entering module"<<std::endl;
+//        std::string text = ctx->getText();
     }
   virtual void exitModule(TParser::ModuleContext * ctx) override
     {
-        std::cout<<"Exiting module"<<std::endl;
-        std::cout<<ctx->getText()<<std::endl;
+//        std::cout<<"Exiting module"<<std::endl;
+//        std::cout<<ctx->getText()<<std::endl;
     }
 
   virtual void enterModuleRoutines(TParser::ModuleRoutinesContext * ctx) override
     {
-        std::cout<<"Entering moduleRoutines"<<std::endl;
-        std::cout<<ctx->getText()<<std::endl;
+//        std::cout<<"Entering moduleRoutines"<<std::endl;
+//        std::cout<<ctx->getText()<<std::endl;
     }
   virtual void exitModuleRoutines(TParser::ModuleRoutinesContext * ctx) override
     {
-        std::cout<<"Exiting moduleRoutines"<<std::endl;
-        std::cout<<ctx->getText()<<std::endl;
+//        std::cout<<"Exiting moduleRoutines"<<std::endl;
+//        std::cout<<ctx->getText()<<std::endl;
     }
 
   virtual void enterMainRoutine(TParser::MainRoutineContext * ctx) override
     {
-        std::cout<<"Entering mainRoutine"<<std::endl;
-        std::cout<<ctx->getText()<<std::endl;
+//        std::cout<<"Entering mainRoutine"<<std::endl;
+//        std::cout<<ctx->getText()<<std::endl;
     }
   virtual void exitMainRoutine(TParser::MainRoutineContext * ctx) override
     {
-        std::cout<<"Exiting mainRoutine"<<std::endl;
-        std::cout<<ctx->getText()<<std::endl;
+//        std::cout<<"Exiting mainRoutine"<<std::endl;
+//        std::cout<<ctx->getText()<<std::endl;
     }
 
   virtual void enterSubRoutine(TParser::SubRoutineContext * /*ctx*/) override { }
@@ -153,7 +153,25 @@ public:
   virtual void enterStatementList(TParser::StatementListContext * /*ctx*/) override { }
   virtual void exitStatementList(TParser::StatementListContext * /*ctx*/) override { }
 
-  virtual void enterStatement(TParser::StatementContext * /*ctx*/) override { }
+  virtual void enterStatement(TParser::StatementContext * ctx) override {
+        std::cout<<"Entering statement"<<std::endl;
+        std::cout<<ctx->start->getText()<<std::endl;
+        switch (ctx->start->getType()) {
+           case TLexer::PTP:
+            //here we detect ptp statement
+            break;
+           case TLexer::LIN:
+            //here we detect lin statement
+            break;
+           case TLexer::CIRC:
+            //here we detect circ statement
+            break;
+        }
+        ctx->DO();
+        //then if type of
+        //ptp
+        //
+   }
   virtual void exitStatement(TParser::StatementContext * /*ctx*/) override { }
 
   virtual void enterAnalogOutputStatement(TParser::AnalogOutputStatementContext * /*ctx*/) override { }

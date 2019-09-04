@@ -201,7 +201,8 @@ SOURCES += \
     antlr4/runtime/Cpp/runtime/src/atn/AmbiguityInfo.cpp \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.cpp \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.cpp \
-    interpretercore.cpp
+    interpretercore.cpp \
+    robotstate.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -385,7 +386,8 @@ HEADERS += \
     antlr4/runtime/Cpp/runtime/src/atn/AmbiguityInfo.h \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.h \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.h \
-    interpretercore.h
+    interpretercore.h \
+    robotstate.h
 
 FORMS += \
     dialog_loadpoints.ui \

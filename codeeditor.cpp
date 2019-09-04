@@ -681,6 +681,17 @@ void CodeEditor::on_actionCss_triggered(){
     }
 }
 
+void CodeEditor::on_actionRoboticLanguage_triggered()
+{
+    if (currentEditorWidget->toPlainText() == ""){
+        currentEditorWidget->setPlainText(templates.getRoboticLanguageTemplate());
+    } else {
+        if (confirmApplyTemplate()){
+            currentEditorWidget->setPlainText(templates.getRoboticLanguageTemplate());
+        }
+    }
+}
+
 /*
  *****************************
  *         View              *

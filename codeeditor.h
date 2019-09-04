@@ -166,6 +166,8 @@ private slots:
 
     void on_actionTommorrow_Night_triggered();
 
+    void on_actionRoboticLanguage_triggered();
+
 private:
     Ui::CodeEditor *ui;
     Highlighter *highlighter;

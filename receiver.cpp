@@ -35,7 +35,7 @@ Receiver::~Receiver()
 
 double Receiver::motor_to_degree_position(int32_t point)
 {
-    return (point * 360 /static_cast<double>(NUMBER_OF_motorpuls));
+    return (point * 360 /static_cast<double>(NUMBER_OF_motorpulse*GEARBOX_RATIO));
 }
 
 void Receiver::calculate_motor_to_degree_array(int32_t points[4], double *ret_data){
@@ -102,6 +102,9 @@ void Receiver::receiverBase()
     int qFlag = IPC_CREAT;
 
     qDebug("Creating a queue with key = %d\n", qKey);
+
+    //here first check if queue exist
+
 
     if ((qID = msgget(qKey, qFlag)) < 0)
     {
@@ -183,22 +186,22 @@ void Receiver::receiverBase()
             QVector<double> act_actpos(4);
             QVector<double> target_actpos(4);
 
+            calculate_motor_to_degree_vector(recvdMsg.actPos, &act_actpos);
+            calculate_motor_to_degree_vector(recvdMsg.targetPos, &target_actpos);
+            //update current state
+            RobotState::getInstance()->setAngles(act_actpos[0],act_actpos[1],act_actpos[2],act_actpos[3]);
             if(messageCounter%emitFrequency==0)
             {
-
                // double actual_data[4],target_data[4];
 //                calculate_motor_to_degree_array(recvdMsg.actPos,actual_data);
 //                calculate_motor_to_degree_array(recvdMsg.targetPos,target_data);
-
-                calculate_motor_to_degree_vector(recvdMsg.actPos, &act_actpos);
-                calculate_motor_to_degree_vector(recvdMsg.targetPos, &target_actpos);
                 emit newMessage(messageCounter,target_actpos, act_actpos);
             }
             messageCounter++;
-            fprintf(fp, "%ld,%ld,%ld,%f,%f\n", recvdMsg.updatePeriod ,recvdMsg.actPos[0] ,recvdMsg.targetPos[0] ,motor_to_degree_position(recvdMsg.actPos[0]) , motor_to_degree_position(recvdMsg.targetPos[0])
-                    , recvdMsg.updatePeriod ,recvdMsg.actPos[1] ,recvdMsg.targetPos[1] ,motor_to_degree_position(recvdMsg.actPos[1]) , motor_to_degree_position(recvdMsg.targetPos[1])
-                    , recvdMsg.updatePeriod ,recvdMsg.actPos[2] ,recvdMsg.targetPos[2] ,motor_to_degree_position(recvdMsg.actPos[2]) , motor_to_degree_position(recvdMsg.targetPos[2])
-                    , recvdMsg.updatePeriod ,recvdMsg.actPos[3] ,recvdMsg.targetPos[3] ,motor_to_degree_position(recvdMsg.actPos[3]) , motor_to_degree_position(recvdMsg.targetPos[3])
+            fprintf(fp, "%ld,%ld,%ld,%f,%f,%ld,%ld,%f,%f,%ld,%ld,%f,%f,%ld,%ld,%f,%f\n", recvdMsg.updatePeriod ,recvdMsg.actPos[0] ,recvdMsg.targetPos[0] ,motor_to_degree_position(recvdMsg.actPos[0]) , motor_to_degree_position(recvdMsg.targetPos[0])
+                    , recvdMsg.actPos[1] ,recvdMsg.targetPos[1] ,motor_to_degree_position(recvdMsg.actPos[1]) , motor_to_degree_position(recvdMsg.targetPos[1])
+                    , recvdMsg.actPos[2] ,recvdMsg.targetPos[2] ,motor_to_degree_position(recvdMsg.actPos[2]) , motor_to_degree_position(recvdMsg.targetPos[2])
+                    , recvdMsg.actPos[3] ,recvdMsg.targetPos[3] ,motor_to_degree_position(recvdMsg.actPos[3]) , motor_to_degree_position(recvdMsg.targetPos[3])
                     );
 
 

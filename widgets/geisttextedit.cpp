@@ -451,18 +451,25 @@ void GeistTextEdit::keyPressEvent ( QKeyEvent * e ){
     c->complete(cr); // popup it up!
 }
 
-void GeistTextEdit::insertCompletion(const QString &completion)
+void GeistTextEdit::insertCompletion(const QString &completion_original)
 {
     if (c->widget() != this)
         return;
     QTextCursor tc = textCursor();
-    int extra = completion.length() - c->completionPrefix().length();
+//    int extra = completion.length() - c->completionPrefix().length();
+    QString completion=completion_original;
+    completion.append(" ");
+    int extra = completion.length();// - c->completionPrefix().length();
     tc.movePosition(QTextCursor::Left);
-    tc.movePosition(QTextCursor::EndOfWord);
+    tc.movePosition(QTextCursor::StartOfWord);
+    for (int var = 0; var < c->completionPrefix().length(); var++) {
+        tc.deleteChar();
+    }
+
     tc.insertText(completion.right(extra));
+
     setTextCursor(tc);
 }
-
 QString GeistTextEdit::textUnderCursor() const
 {
     QTextCursor tc = textCursor();
