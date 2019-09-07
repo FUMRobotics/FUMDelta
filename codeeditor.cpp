@@ -692,6 +692,12 @@ void CodeEditor::on_actionRoboticLanguage_triggered()
     }
 }
 
+void CodeEditor::on_actionRun_triggered()
+{
+    qDebug("run triggered");
+    qDebug(currentEditorWidget->toPlainText().toLatin1());
+}
+
 /*
  *****************************
  *         View              *

@@ -168,6 +168,8 @@ private slots:
 
     void on_actionRoboticLanguage_triggered();
 
+    void on_actionRun_triggered();
+
 private:
     Ui::CodeEditor *ui;
     Highlighter *highlighter;
