@@ -696,6 +696,7 @@ void CodeEditor::on_actionRun_triggered()
 {
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
+    highlightRunningLine(lineColor);
 }
 
 /*
@@ -988,8 +989,32 @@ void CodeEditor::highlightCurrentLine(){
        currentEditorWidget->setExtraSelections(extraSelections);
        ui->listWidget->verticalScrollBar()->setValue(currentEditorWidget->verticalScrollBar()->value());
    }
-}
 
+}
+void CodeEditor::highlightRunningLine(QColor highlight_color){
+    if (currentEditorWidget != NULL){
+        QList<QTextEdit::ExtraSelection> extraSelections;
+
+        QTextEdit::ExtraSelection selections;
+        selections.format.setBackground(highlight_color);
+        selections.format.setProperty(QTextFormat::FullWidthSelection, true);
+        QTextCursor highlight_cursor=currentEditorWidget->textCursor();
+        qDebug("position before moving:%d",highlight_cursor.position());
+        //highlight_cursor.movePosition(QTextCursor::Start);
+        highlight_cursor.movePosition(QTextCursor::Down);
+
+
+        qDebug("position after moving:%d",highlight_cursor.position());
+        selections.cursor = highlight_cursor;
+        selections.cursor.clearSelection();
+        extraSelections.append(selections);
+
+        currentEditorWidget->setExtraSelections(extraSelections);
+        ui->listWidget->verticalScrollBar()->setValue(currentEditorWidget->verticalScrollBar()->value());
+
+    }
+
+}
 //  Update Line Numbers
 void CodeEditor::updateLineNums(int newBlockCount){
 

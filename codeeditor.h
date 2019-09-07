@@ -40,6 +40,8 @@ private slots:
 
     void highlightCurrentLine();
 
+    void highlightRunningLine(QColor highlight_color);
+
     void updateHighlighterTheme();
 
     void setTabWidth(int width);
