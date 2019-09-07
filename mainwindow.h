@@ -8,6 +8,7 @@
 #include "dialog_loadpoints.h"
 #include "codeeditor.h"
 #include "robotstate.h"
+#include "dialog_take_drives_home.h"
 
 namespace Ui {
 class MainWindow;
@@ -93,6 +94,7 @@ private:
     SendCommand* send_command;
     int jog_value=5000;
     Dialog_LoadPoints* dialog_loading;
+    Dialog_Take_Drives_Home* dialog_take_home;
     //QVector<bool> isGoingHome;
 
 

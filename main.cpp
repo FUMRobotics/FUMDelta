@@ -96,6 +96,26 @@ int main(int argc, char *argv[])
 
     //TrajectorySender *ts = new TrajectorySender(0,0,-0.8,0,0,-0.85);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //start ethercat
     QProcess *ethercatProcess=new QProcess() ;
     QProcess process1;
@@ -136,7 +156,14 @@ int main(int argc, char *argv[])
 
 
 
+    //-----------------------------------------------------------------------------------------------------------
+    /*---------------------------TESTING INVERSE--------------------------*/
+/*    Receiver receiver;
 
+    //InverseKinematicsCore(0.0)
+
+    MainWindow w(&receiver);*/
+    /*---------------------------TESTING INVERSE--------------------------*/
     w.show();
 
     return a.exec();

@@ -17,6 +17,7 @@ public:
     int getNumberOfPoint();
     int getTimeOfTrajectory();
     void loadPointFromCsv();
+    void testLinear();
     void sendPointsToDrives(QVector<QVector<double>> &points_for_drives);
     void sendPointsToDrives();
 

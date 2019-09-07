@@ -27,12 +27,12 @@ public:
 
     //variables for 7seg
     double timet;
-    double * time;
-    double * q;
+    double * time=nullptr;
+    double * q=nullptr;
     double qadad;
-    double * v;
-    double * a;
-    double * j;
+    double * v=nullptr;
+    double * a=nullptr;
+    double * j=nullptr;
     double vlim = 0;
     double alima = 0;
     double alimd = 0;

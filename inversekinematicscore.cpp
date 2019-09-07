@@ -394,7 +394,12 @@ void InverseKinematicsCore::Interpolation(SevenSegment& M1, SevenSegment& M2, Se
 
     int size;
 
+    int temp1=M1.qsize;
+    int temp2=M2.qsize;
+    int temp3=M3.qsize;
+
     int greatest_is;
+
     if (isgreater(M1.qsize, M2.qsize) && isgreater(M1.qsize, M3.qsize)) {
         greatest_is = 1;
         //m1 is greater
@@ -424,11 +429,13 @@ void InverseKinematicsCore::Interpolation(SevenSegment& M1, SevenSegment& M2, Se
         case 2: ratio = (M2.q[i] - M2.q[0]) / (M2.q[(int)size - 1] - M2.q[0]); break;
         case 3: ratio = (M3.q[i] - M3.q[0]) / (M3.q[(int)size - 1] - M3.q[0]); break;
         default:
+            qDebug("IMPOSSIBLE CASE,UKNOWN GREATEST_IS");
+            ratio=0;
             break;
         }
-        (*q1)[i] = ratio*(M1.q[(int)size - 1] - M1.q[0]) + M1.q[0];;
-        (*q2)[i] = ratio*(M2.q[(int)size - 1] - M2.q[0]) + M2.q[0];
-        (*q3)[i] = ratio*(M3.q[(int)size - 1] - M3.q[0]) + M3.q[0];
+        (*q1)[i] = ratio*(M1.q[temp1 - 1] - M1.q[0]) + M1.q[0];;
+        (*q2)[i] = ratio*(M2.q[temp2 - 1] - M2.q[0]) + M2.q[0];
+        (*q3)[i] = ratio*(M3.q[temp3 - 1] - M3.q[0]) + M3.q[0];
     }
 }
 
