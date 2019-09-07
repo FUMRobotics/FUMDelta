@@ -411,6 +411,6 @@ DISTFILES += \
     antlr4/runtime/Cpp/runtime/src/tree/xpath/XPathLexer.g4 \
     antlr4/runtime/Cpp/runtime/src/atn/Makefile
 
-INCLUDEPATH +=/home/fumdelta/Documents/eigen-eigen-323c052e1731/
-INCLUDEPATH +=/home/fumdelta/Documents/FumDelta/antlr4/runtime/Cpp/runtime/src/
-INCLUDEPATH+=/home/fumdelta/Documents/FumDelta/generated/
+INCLUDEPATH +=eigen/
+INCLUDEPATH +=antlr4/runtime/Cpp/runtime/src/
+INCLUDEPATH+=generated/
