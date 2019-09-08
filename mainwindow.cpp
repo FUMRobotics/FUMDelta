@@ -40,7 +40,7 @@ MainWindow::MainWindow(Receiver* receiver,QWidget *parent) :
     connect(btn_goHome_drive4,SIGNAL(clicked()),this,SLOT(goHome_slot_drive_4()));
     connect(btn_loadFile_inner,SIGNAL(clicked()),this,SLOT(loadTrajectory_inner_slot()));
     connect(btn_sendPosition,SIGNAL(clicked()),this,SLOT(sendPositionSlot()));
-
+    connect(btn_goHome_all_drives,SIGNAL(clicked()),this,SLOT(goHomeForAllDrivesSlot()));
 }
 
 MainWindow::~MainWindow()
@@ -198,7 +198,7 @@ void MainWindow::showGoHomeElements()
     btn_goHome_drive2->show();
     btn_goHome_drive3->show();
     btn_goHome_drive4->show();
-
+    btn_goHome_all_drives->show();
 
 }
 
@@ -208,7 +208,7 @@ void MainWindow::hideGoHomeElements()
     btn_goHome_drive2->hide();
     btn_goHome_drive3->hide();
     btn_goHome_drive4->hide();
-
+    btn_goHome_all_drives->hide();
 }
 
 void MainWindow::setUpDynamicGUIElements()
@@ -222,6 +222,7 @@ void MainWindow::setUpDynamicGUIElements()
     btn_goHome_drive2=new QPushButton();
     btn_goHome_drive3=new QPushButton();
     btn_goHome_drive4=new QPushButton();
+    btn_goHome_all_drives=new QPushButton();
     btn_loadFile_inner=new QPushButton();
 
     btn_sendPosition=new QPushButton();
@@ -305,11 +306,13 @@ void MainWindow::setUpDynamicGUIElements()
     btn_goHome_drive2->setText("Go Home");
     btn_goHome_drive3->setText("Go Home");
     btn_goHome_drive4->setText("Go Home");
+    btn_goHome_all_drives->setText("Take All");
     btn_loadFile_inner->setText("Load Trajectory");
     btn_goHome_drive1->setStyleSheet("color:rgb(238, 238, 236)");
     btn_goHome_drive2->setStyleSheet("color:rgb(238, 238, 236)");
     btn_goHome_drive3->setStyleSheet("color:rgb(238, 238, 236)");
     btn_goHome_drive4->setStyleSheet("color:rgb(238, 238, 236)");
+    btn_goHome_all_drives->setStyleSheet("color:rgb(238, 238, 236)");
     btn_loadFile_inner->setStyleSheet("color:rgb(238, 238, 236)");
 
 //    btn_goHome_drive1->sizePolicy().setVerticalPolicy(QSizePolicy::Fixed);
@@ -324,12 +327,15 @@ void MainWindow::setUpDynamicGUIElements()
 //    btn_goHome_drive4->sizePolicy().setHorizontalPolicy(QSizePolicy::Preferred);
 //    btn_loadFile_inner->sizePolicy().setHorizontalPolicy(QSizePolicy::Preferred);
     const QSize btnSize = QSize(100, 50);
+    const QSize btnSizeMini=QSize(100,25);
     const QSize btnJogSize = QSize(50, 50);
     btn_loadFile_inner->setFixedSize(btnSize);
     btn_goHome_drive1->setFixedSize(btnSize);
     btn_goHome_drive2->setFixedSize(btnSize);
     btn_goHome_drive3->setFixedSize(btnSize);
     btn_goHome_drive4->setFixedSize(btnSize);
+    btn_goHome_all_drives->setFixedSize(btnSize);
+    //btn_goHome_all_drives->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 
     ui->btn_addJog_drive1->setFixedSize(btnJogSize);
     ui->btn_addJog_drive2->setFixedSize(btnJogSize);
@@ -345,6 +351,7 @@ void MainWindow::setUpDynamicGUIElements()
     ui->horizontalLayout_5->addWidget(btn_goHome_drive2);
     ui->horizontalLayout_3->addWidget(btn_goHome_drive3);
     ui->horizontalLayout_4->addWidget(btn_goHome_drive4);
+    ui->verticalLayout_3->addWidget(btn_goHome_all_drives);
 
     //called hide for now to hide go home elements,
     //so that jog elements are shown at startup
@@ -435,6 +442,15 @@ void MainWindow::sendPositionSlot()
             QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
 
         }
+
+}
+
+void MainWindow::goHomeForAllDrivesSlot()
+{
+    qDebug("go home for all drives slot in main window");
+    TrajectorySender *ts = new TrajectorySender();
+    QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
+    QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
 
 }
 
