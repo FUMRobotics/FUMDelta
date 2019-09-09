@@ -33,6 +33,7 @@ public slots:
     void goHome_slot_drive_4();
     void loadTrajectory_inner_slot();
     void sendPositionSlot();
+    void goHomeForAllDrivesSlot();
     void hidePlots();
     void showPlots();
     void hideCodeEditor();
@@ -115,6 +116,8 @@ private:
     QPushButton* btn_goHome_drive2;
     QPushButton* btn_goHome_drive3;
     QPushButton* btn_goHome_drive4;
+
+    QPushButton* btn_goHome_all_drives;
 
 
     //button for load file

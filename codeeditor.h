@@ -40,6 +40,8 @@ private slots:
 
     void highlightCurrentLine();
 
+    void highlightRunningLine(QColor highlight_color);
+
     void updateHighlighterTheme();
 
     void setTabWidth(int width);
@@ -167,6 +169,8 @@ private slots:
     void on_actionTommorrow_Night_triggered();
 
     void on_actionRoboticLanguage_triggered();
+
+    void on_actionRun_triggered();
 
 private:
     Ui::CodeEditor *ui;
