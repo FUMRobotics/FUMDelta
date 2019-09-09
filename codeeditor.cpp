@@ -50,7 +50,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
     newTab();
 
     completer=new QCompleter(this);
-    completer->setModel(modelFromFile("/home/fumdelta/Documents/FumDelta/WordList/wordlist.txt"));
+//    QFile data(":/file.xml");
+    completer->setModel(modelFromFile(":/WordList/wordlist.txt"));
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     completer->setWrapAround(false);
