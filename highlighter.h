@@ -64,6 +64,7 @@ private:
     void setCompiledLanguageRules();
     void setScriptingLanguageRules();
     void setMarkupLanguageRules();
+    void setRoboticLanguageRules();
     void setAsmRules();
     void setCssRules();
     void setSqlRules();
@@ -97,6 +98,7 @@ private:
     QStringList compiledLanguages;
     QStringList scriptingLanguages;
     QStringList markupLanguages;
+    QStringList roboticLanguage;
 
     QColor keywordColor;
     QColor keyword2Color;

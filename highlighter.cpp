@@ -15,7 +15,7 @@ void Highlighter::setupHighlighter(QString filetype, QString theme){
     compiledLanguages = QString("adb abs c cpp cs dart go h java m rs rlib swift vala vapi").split(" ");
     scriptingLanguages = QString("bat coffee hs js lua php pl ps1 py rb sh vb").split(" ");
     markupLanguages = QString("htm html json twig ui xml").split(" ");
-
+    roboticLanguage=QString("rl ").split(" ");
     setColorValues(theme);
 
     if (compiledLanguages.contains(filetype)){
@@ -30,7 +30,12 @@ void Highlighter::setupHighlighter(QString filetype, QString theme){
 
         setMarkupLanguageRules();
 
-    } else if (filetype == "asm"){
+    }else if(roboticLanguage.contains(filetype))
+    {
+        setRoboticLanguageRules();
+    }
+
+    else if (filetype == "asm"){
 
         setAsmRules();
 
@@ -272,6 +277,100 @@ void Highlighter::setMarkupLanguageRules(){
 
     commentStartExpression = QRegExp("<!--");
     commentEndExpression = QRegExp("-->");
+}
+
+void Highlighter::setRoboticLanguageRules()
+{
+    HighlightingRule rule;
+    //Functions
+    functionFormat.setForeground(functionsColor);
+    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
+    keywordFormat.setForeground(keywordColor);
+    keywordFormat.setFontWeight(QFont::Bold);
+    QStringList keywordPatterns;
+    keywordPatterns << "\\ADD\\b" << "\\bANIN\\b" << "\\bANOUT\\b" << "\\bAND\\b"
+                    << "\\bANIN\\b" << "\\bANOUT\\b" << "\\bASSIGN\\b" << "\\bB_AND\\b"
+                    << "\\bB_AND\\b" << "\\bB_EXOR\\b" << "\\bB_NOT\\b" << "\\bBOOL\\b"
+                    << "\\bB_OR\\b" << "\\bBRAKE\\b" << "\\bCASE\\b"
+                    << "\\bCAST_FROM\\b" << "\\bCAST_TO\\b" << "\\bC_DIS\\b"
+                    << "\\bCHAR\\b" << "\\bCHARLITERAL\\b" << "\\bCIRC\\b" << "\\bCIRC_REL\\b"
+                    << "\\bCOLON\\b" << "\\bCOMMA\\b" << "\\bCONST\\b" << "\\bCONTINUE\\b"
+                    << "\\bC_ORI\\b" << "\\bC_PTP\\b" << "\\bC_VEL\\b" << "\\bDECL\\b"
+                    << "\\bDEF\\b" << "\\bDEFAULT\\b" << "\\bDEFDAT\\b" << "\\bDEFFCT\\b"
+                    << "\\bDELAY\\b" << "\\bDIERESIS\\b" << "\\bDIV\\b" << "\\bDO\\b"
+                    << "\\bDOT\\b" << "\\bELSE\\b" << "\\bEND\\b" << "\\bENDDAT\\b"
+                    << "\\bENDFCT\\b" << "\\bENDFOR\\b" << "\\bENDIF\\b" << "\\bENDLOOP\\b"
+                    << "\\bENDSWITCH\\b" << "\\bENDWHILE\\b" << "\\bENUM\\b"
+                    << "\\bEQUAL\\b" << "\\bEXIT\\b" << "\\bEXOR\\b" << "\\bEXT\\b"
+                    << "\\bEXTFCT\\b" << "\\bFALSE\\b" << "\\bFLOATLITERAL\\b" << "\\bFOR\\b"
+                    <<"\\bGE\\b"<<"\\bGLOBAL\\b"<<"\\bGOTO\\b"<<"\\bGT\\b"<<"\\bHALT\\b"
+                    <<"\\bHEADERLINE\\b"<<"\\bIDENTIFIER\\b"<<"\\bIF\\b"<<"\\bIMPORT\\b"
+                    <<"\\bINT\\b"<<"\\bINTERRUPT\\b"<<"\\bINTLITERAL\\b"<<"\\bIS\\b"
+                    <<"\\bLBRACE\\b"<<"\\bLBRACK\\b"<<"\\bLE\\b"<<"\\bLIN\\b"
+                    <<"\\bLINE_COMMENT\\b"<<"\\bLIN_REL\\b"<<"\\bLOOP\\b"<<"\\bLPAREN\\b"
+                    <<"\\bLT\\b"<<"\\bMAXIMUM\\b"<<"\\bMINIMUM\\b"<<"\\bMOD\\b"
+                    <<"\\bMUL\\b"<<"\\bNEWLINE\\b"<<"\\bNOT\\b"<<"\\bNOT_EQUAL\\b"
+                    <<"\\bNUMBER\\b"<<"\\bOR\\b"<<"\\bPRIO\\b"<<"\\bPTP\\b"
+                    <<"\\bPTP_REL\\b"<<"\\bPUBLIC\\b"<<"\\bR1\\b"<<"\\bRBRACE\\b"
+                    <<"\\bRBRACK\\b"<<"\\bREAL\\b"<<"\\bREPEAT\\b"<<"\\bRETURN\\b"
+                    <<"\\bRPAREN\\b"<<"\\bSEC\\b"<<"\\bSEMI\\b"<<"\\bSIGNAL\\b"
+                    <<"\\bSTRINGLITERAL\\b"<<"\\bSTRUC\\b"<<"\\bSUB\\b"<<"\\bSWITCH\\b"
+                    <<"\\bTHEN\\b"<<"\\bTO\\b"<<"\\bTRIGGER\\b"<<"\\bTRUE\\b"
+                    <<"\\bUNTIL\\b"<<"\\bWAIT\\b"<<"\\bWHEN\\b"<<"\\bWHILE\\b"
+                    <<"\\bWS\\b"
+                       ;
+
+
+    foreach (const QString &pattern, keywordPatterns) {
+        rule.pattern = QRegExp(pattern);
+        rule.format = keywordFormat;
+        highlightingRules.append(rule);
+    }
+
+    //Nums :D
+    numberFormat.setForeground(numColor);
+    rule.pattern = QRegExp("\\b[0-9\\.]+\\b");
+    rule.format = numberFormat;
+    highlightingRules.append(rule);
+
+    //Quotes
+    quotationFormat.setForeground(valueColor);
+    rule.pattern = QRegExp("\".*\"");
+    rule.format = quotationFormat;
+    highlightingRules.append(rule);
+
+    quotationFormat.setForeground(valueColor);
+    rule.pattern = QRegExp("'.*'");
+    rule.format = quotationFormat;
+    highlightingRules.append(rule);
+
+    //Format strings
+    formatStringFormat.setForeground(formatStringColor);
+    rule.pattern = QRegExp("%[sdifFuoxXeEgGaAcpn]+\\b");
+    rule.format = formatStringFormat;
+    highlightingRules.append(rule);
+
+    //Comments
+    singleLineCommentFormat.setFontItalic(true);
+    singleLineCommentFormat.setForeground(commentColor);
+    rule.pattern = QRegExp("//[^\n]*");
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+
+    singleLineCommentFormat.setForeground(commentColor);
+    rule.pattern = QRegExp("#[^\n]*");
+    rule.format = singleLineCommentFormat;
+    highlightingRules.append(rule);
+
+    multiLineCommentFormat.setFontItalic(true);
+    multiLineCommentFormat.setForeground(commentColor);
+
+    commentStartExpression = QRegExp("/\\*");
+    commentEndExpression = QRegExp("\\*/");
+
 }
 
 void Highlighter::setAsmRules(){
