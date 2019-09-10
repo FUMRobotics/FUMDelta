@@ -5,7 +5,7 @@
 #include <QInputDialog>
 #include <QScrollBar>
 #include <QTabWidget>
-
+#include <unistd.h>
 #include "QDebug"
 
 #include "widgets/geisttextedit.h"
@@ -697,7 +697,7 @@ void CodeEditor::on_actionRun_triggered()
 {
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
-    highlightRunningLine(lineColor);
+    highlightRunningLine(QColor(249,166,2));
 }
 
 /*

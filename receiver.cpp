@@ -189,7 +189,7 @@ void Receiver::receiverBase()
             calculate_motor_to_degree_vector(recvdMsg.actPos, &act_actpos);
             calculate_motor_to_degree_vector(recvdMsg.targetPos, &target_actpos);
             //update current state
-//            RobotState::getInstance()->setAngles(act_actpos[0],act_actpos[1],act_actpos[2],act_actpos[3]);
+            RobotState::getInstance()->setAngles(act_actpos[0],act_actpos[1],act_actpos[2],act_actpos[3]);
             if(messageCounter%emitFrequency==0)
             {
                // double actual_data[4],target_data[4];
