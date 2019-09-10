@@ -194,10 +194,10 @@ void MainWindow::hideLoadFileElement()
 void MainWindow::showGoHomeElements()
 {
 
-    btn_goHome_drive1->show();
-    btn_goHome_drive2->show();
-    btn_goHome_drive3->show();
-    btn_goHome_drive4->show();
+//    btn_goHome_drive1->show();
+//    btn_goHome_drive2->show();
+//    btn_goHome_drive3->show();
+//    btn_goHome_drive4->show();
     btn_goHome_all_drives->show();
 
 }
