@@ -115,7 +115,7 @@ void Receiver::receiverBase()
         qDebug("Queue creation successful.\n");
 
 
-    typedef struct myMsgType
+    typedef struct receiveMassageType
     {
         /* Mandatory */
         long       mtype;
@@ -124,14 +124,14 @@ void Receiver::receiverBase()
         int32_t    actPos[4];
         int32_t    targetPos[4];
 
-    } myMsg;
+    } receiveMassage;
 
     /* Received message. */
-    myMsg recvdMsg;
+    receiveMassage recvdMsg;
     size_t msgSize;
 
     /* size of data = size of structure - size of mtype */
-    msgSize = sizeof(struct myMsgType) - sizeof(long);
+    msgSize = sizeof(struct receiveMassageType) - sizeof(long);
 
     /* Pick messages with type = 1. (msg.mtype = 1 in the producer) */
     int msgType = 1;
@@ -189,7 +189,7 @@ void Receiver::receiverBase()
             calculate_motor_to_degree_vector(recvdMsg.actPos, &act_actpos);
             calculate_motor_to_degree_vector(recvdMsg.targetPos, &target_actpos);
             //update current state
-//            RobotState::getInstance()->setAngles(act_actpos[0],act_actpos[1],act_actpos[2],act_actpos[3]);
+            RobotState::getInstance()->setAngles(act_actpos[0],act_actpos[1],act_actpos[2],act_actpos[3]);
             if(messageCounter%emitFrequency==0)
             {
                // double actual_data[4],target_data[4];
