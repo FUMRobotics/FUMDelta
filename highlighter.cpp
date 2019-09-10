@@ -15,7 +15,7 @@ void Highlighter::setupHighlighter(QString filetype, QString theme){
     compiledLanguages = QString("adb abs c cpp cs dart go h java m rs rlib swift vala vapi").split(" ");
     scriptingLanguages = QString("bat coffee hs js lua php pl ps1 py rb sh vb").split(" ");
     markupLanguages = QString("htm html json twig ui xml").split(" ");
-    roboticLanguage=QString("rl ").split(" ");
+    roboticLanguage=QString("drl ").split(" ");
     setColorValues(theme);
 
     if (compiledLanguages.contains(filetype)){
