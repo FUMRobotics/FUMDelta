@@ -208,6 +208,23 @@ void TrajectorySender::sendPointsToDrives(){
     }
 }
 
+bool TrajectorySender::isDistanceZero(double start_drive1, double end_drive1, double start_drive2, double end_drive2, double start_drive3, double end_drive3)
+{
+    double distance1=end_drive1-start_drive1;
+    double distance2=end_drive2-start_drive2;
+    double distance3=end_drive3-start_drive3;
+    qDebug("distance1= %lf ,distance2= %lf ,distance3= %lf ",distance1,distance2,distance3);
+    if (!(distance1 < 0 || distance1 > 0)){
+        if(!(distance2 < 0 || distance2 > 0)){
+            if(!(distance3 < 0 || distance3 > 0)){
+                //this is not valid all distance is zero
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void TrajectorySender::run()
 {
 
@@ -292,9 +309,20 @@ void TrajectorySender::run()
            //TODO set this after send point to drive and change physical state
 //           RobotState::getInstance()->setAllCoordinates(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],
 //                                                        x_end, y_end, z_end);
+
+           if(isDistanceZero
+                   (inverse_start_output[0],inverse_end_output[0],
+                    inverse_start_output[1],inverse_end_output[1],
+                    inverse_start_output[2],inverse_end_output[2]))
+           {
+               KinematicsException expection("DISTANCE IS ZERO,DUPLICATED POINT");
+           }
+           //THE FOLLOWING LINE IS COMMENTED DUE TO THE POSSIBILITY OF SERIOUS BUGS WHICH MIGHT LEAD TO SERIOUS INCIDENTS
+           RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
            //RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
            qDebug("newly set position in robot state: x: %lf y:%lf, z:%lf  theta 1:%lf theta 2:%lf theta 3:%lf",
                   x_end,y_end,z_end,inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
+
            //in this point we have start and end degree
 
            //sevenseg

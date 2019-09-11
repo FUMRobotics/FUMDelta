@@ -27,11 +27,10 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
         alimd = 0;
         qDebug( "dist is zero ");
         //KinematicsException
-        throw KinematicsException("distance is zero",false);
+        //throw KinematicsException("distance is zero",false);
         //=new KinematicsException("distance is zero");
     }
     // ask about the if  and landa values
-
     // Case 1: vlim = vmax.
     // max acc has been reached
     int sigma = signbit(dist);
@@ -215,35 +214,15 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
 
 SevenSegment::~SevenSegment()
 {
-    if(time!=nullptr)
-    {
-        qDebug("time is not null");
-        //cout << "remove " << q << endl;
-        delete[] time;
-        time = nullptr;
-    }
-    if(q!=nullptr)
-    {
-         qDebug("q is not null");
-        delete[] q;
-        q = nullptr;
-    }
-    if(v!=nullptr)
-    {
-         qDebug("v is not null");
-        delete[] v;
-        v = nullptr;
-    }
-    if(a!=nullptr)
-    {
-         qDebug("a is not null");
-        delete[] a;
-        a = nullptr;
-    }
-    if(j!=nullptr)
-    {
-        qDebug("j is not null");
-        delete[] j;
-        j = nullptr;
-    }
+    //cout << "remove " << q << endl;
+    delete[] time;
+    time = nullptr;
+    delete[] q;
+    q = nullptr;
+    delete[] v;
+    v = nullptr;
+    delete[] a;
+    a = nullptr;
+    delete[] j;
+    j = nullptr;
 }

@@ -442,7 +442,10 @@ void InverseKinematicsCore::Interpolation(SevenSegment& M1, SevenSegment& M2, Se
 bool InverseKinematicsCore::isPositionValid(double x, double y, double z)
 {
     qDebug("x=%lf y=%lf z=%lf",x,y,z);
-    return  ((z >= -0.78 && z <= -0.53 && (pow(x, 2) + pow(y, 2)) <= (pow(0.4, 2)))  || (z >= -0.88 && z<= -0.78 && (pow(x, 2) + pow(y, 2)) <= pow((1.5*z + 1.570),2)));
+    return ((z >= -0.78 && z <= -0.53 &&
+              (pow(x, 2) + pow(y, 2)) <= (pow(0.4, 2)))
+             || (z >= -0.88 && z<= -0.78 &&
+                 (pow(x, 2) + pow(y, 2)) <= pow((1.5*z + 1.570),2)));
 }
 //int InverseKinematicsCore:: base()
 //{

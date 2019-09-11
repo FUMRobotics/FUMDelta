@@ -106,7 +106,7 @@ void MainWindow::loadTrajectory_inner_slot()
         {
             TrajectorySender *ts = new TrajectorySender(fileName, 4);
             qDebug("load points dialog 3");
-            dialog_loading=new Dialog_LoadPoints(ts);
+            dialog_loading                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      =new Dialog_LoadPoints(ts);
             QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
             QObject::connect(ts,&TrajectorySender::startedSendingPoints,this, &MainWindow::startedSendingPoints);
             QObject::connect(ts,&TrajectorySender::finishedSendingPoints,this, &MainWindow::finishedSendingPoints);
