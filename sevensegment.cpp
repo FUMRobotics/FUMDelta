@@ -1,5 +1,5 @@
 #include "sevensegment.h"
-
+#include "kinematicsexception.h"
 SevenSegment::SevenSegment(QObject *parent) : QObject(parent)
 {
 
@@ -25,14 +25,15 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
         vlim = 0;
         alima = 0;
         alimd = 0;
-        //cout << "dist is zero ";
-
+        qDebug( "dist is zero ");
+        //KinematicsException
+        //throw KinematicsException("distance is zero",false);
+        //=new KinematicsException("distance is zero");
     }
     // ask about the if  and landa values
-
     // Case 1: vlim = vmax.
     // max acc has been reached
-    //int sigma = signbit(dist);
+    int sigma = signbit(dist);
     if (signbit(dist) == 1) {   // ask if zero needs to be checked too
         q0 = -1 * q0;
         q1 = -1 * q1;
@@ -89,9 +90,13 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
             }
 
             if (Ta >= 2 * Tj1 && Td >= 2 * Tj2)
-
+            {
                 break;
-            else  amax = lamda*amax;
+            }
+            else
+            {
+                amax = lamda*amax;
+            }
         }
         alima = jmax*Tj1;
         alimd = -jmax*Tj2;
@@ -110,10 +115,10 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
     //int test = sizeof(time);
     // cout << "jgfakjsdf ";
     q = new double[(int)(T / dt)+1];
-    v = new double[(int)(T / dt )+1];
+    v = new double[(int)(T / dt)+1];
     a = new double[(int)(T / dt)+1];
     j = new double[(int)(T / dt)+1];
-    //double temp =(int)( T / dt);
+    double temp =(int)(T / dt);
 
 
     for (int i = 0;i < T / dt;i++) {
@@ -121,7 +126,7 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
         c += dt;
     }
     double jmin = -jmax;
-     qsize = 0;
+    qsize = 0;
     for (double t = 0;t < T;t += dt) {
         //t = ceilf(t * 10000) / 10000;
 
@@ -182,6 +187,14 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
         //cout << t;
         //cout << "\n";
     }
+    if (signbit(dist) == 1) {
+        for (int i = 0;i < qsize;i++) {
+            q[i] = -1 * q[i];
+            v[i] = -1 * v[i];
+            a[i] = -1 * a[i];
+            j[i] = -1 * j[i];
+        }
+    }
 
 
     // //have to delete all the dynamic arrays
@@ -201,15 +214,35 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
 
 SevenSegment::~SevenSegment()
 {
-    //cout << "remove " << q << endl;
-    delete[] time;
-    time = nullptr;
-    delete[] q;
-    q = nullptr;
-    delete[] v;
-    v = nullptr;
-    delete[] a;
-    a = nullptr;
-    delete[] j;
-    j = nullptr;
+    if(time!=nullptr)
+    {
+        qDebug("time is not null");
+        //cout << "remove " << q << endl;
+        delete[] time;
+        time = nullptr;
+    }
+    if(q!=nullptr)
+    {
+        qDebug("q is not null");
+        delete[] q;
+        q = nullptr;
+    }
+    if(v!=nullptr)
+    {
+        qDebug("v is not null");
+        delete[] v;
+        v = nullptr;
+    }
+    if(a!=nullptr)
+    {
+        qDebug("a is not null");
+        delete[] a;
+        a = nullptr;
+    }
+    if(j!=nullptr)
+    {
+        qDebug("j is not null");
+        delete[] j;
+        j = nullptr;
+    }
 }

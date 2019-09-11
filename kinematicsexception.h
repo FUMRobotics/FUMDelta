@@ -13,11 +13,21 @@ public:
     KinematicsException(const char *desc) {
         QMessageBox::critical(NULL,QObject::tr("Warning"),QObject::tr(desc));
     }
+    KinematicsException(const char *desc,bool force_close) : KinematicsException(desc)
+    {
+        this->force_close=force_close;
+    }
 
     ~KinematicsException()
     {
-        throw;
+        if(force_close)
+        {
+            throw;
+        }
     }
+
+    bool force_close=false;
+    const char *desc;
 };
 
 #endif // KINEMATICSEXCEPTION_H

@@ -17,8 +17,12 @@ public:
     int getNumberOfPoint();
     int getTimeOfTrajectory();
     void loadPointFromCsv();
+    void testLinear();
     void sendPointsToDrives(QVector<QVector<double>> &points_for_drives);
     void sendPointsToDrives();
+    static bool isDistanceZero(double start_drive1,double end_drive1,
+                        double start_drive2,double end_drive2,
+                        double start_drive3,double end_drive3);
 
 protected:
     void run();

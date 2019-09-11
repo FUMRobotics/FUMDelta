@@ -106,7 +106,7 @@ void MainWindow::loadTrajectory_inner_slot()
         {
             TrajectorySender *ts = new TrajectorySender(fileName, 4);
             qDebug("load points dialog 3");
-            dialog_loading=new Dialog_LoadPoints(ts);
+            dialog_loading                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      =new Dialog_LoadPoints(ts);
             QObject::connect(ts,&TrajectorySender::finishedLoading,dialog_loading, &Dialog_LoadPoints::finishedLoadingDataSlot);
             QObject::connect(ts,&TrajectorySender::startedSendingPoints,this, &MainWindow::startedSendingPoints);
             QObject::connect(ts,&TrajectorySender::finishedSendingPoints,this, &MainWindow::finishedSendingPoints);
@@ -139,6 +139,9 @@ void MainWindow::setButtonsEnable(bool enable)
     btn_goHome_drive2->setEnabled(enable);
     btn_goHome_drive3->setEnabled(enable);
     btn_goHome_drive4->setEnabled(enable);
+
+    ui->btn_program->setEnabled(enable);
+    btn_sendPosition->setEnabled(enable);
 }
 
 void MainWindow::hideJogUIElements()
@@ -406,28 +409,32 @@ void MainWindow::sendPositionSlot()
     double y=textEdit_yPos->toPlainText().toDouble();
     double z=textEdit_zPos->toPlainText().toDouble();
 
-    //convert M to cm
-    x = x / 100;
-    y = y / 100;
-    z = z / 100;
-    if(!InverseKinematicsCore::isPositionValid(x,y,z)){
-        qDebug("position valid");
-        textEdit_xPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-        textEdit_yPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-        textEdit_zPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-    }
-    else{
-        qDebug("position invalid");
-        qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
-        textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-        textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-        textEdit_zPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
-        //TODO: store drive current position and provide them as intial coordiantes
-        TrajectorySender *ts = new TrajectorySender(0,0,-0.8,x,y,z);
-        QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
-        QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
+//    for (int var = 0; var < 10; ++var) {
+//        x = 0 ;
+//        y =  0 ;
+//        z = -70 - var;
+        //convert M to cm
+        x = x / 100;
+        y = y / 100;
+        z = z / 100;
+        if(!InverseKinematicsCore::isPositionValid(x,y,z)){
+            qDebug("position invalid");
+            textEdit_xPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+            textEdit_yPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+            textEdit_zPos->setStyleSheet("color:rgb(194, 59, 34);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+        }
+        else{
+            qDebug("position valid");
+            qDebug("x="+QString::number(x).toLatin1()+" y="+QString::number(y).toLatin1()+" z="+QString::number(z).toLatin1());
+            textEdit_xPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+            textEdit_yPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+            textEdit_zPos->setStyleSheet("color:rgb(238, 238, 236);background-color:rgb(85, 87, 83);font: 16pt \"Ubuntu\";");
+            //TODO: store drive current position and provide them as intial coordiantes
+            TrajectorySender *ts = new TrajectorySender(0,0,-0.8,x,y,z);
+            QObject::connect(ts,&TrajectorySender::startedSendingArrayPoints,this, &MainWindow::startedSendingPoints);
+            QObject::connect(ts,&TrajectorySender::finishedSendingArrayPoints,this, &MainWindow::finishedSendingPoints);
 
-    }
+        }
 
 }
 

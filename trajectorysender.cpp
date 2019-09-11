@@ -1,5 +1,7 @@
 #include "trajectorysender.h"
 #include "robotstate.h"
+#include "kinematicsexception.h"
+
 TrajectorySender::TrajectorySender(QString trajectoryFilePath, int numberOfDrive, QObject *parent) : QThread(parent)
 {
     this->numberOfDrive = numberOfDrive;
@@ -105,6 +107,19 @@ void TrajectorySender::loadPointFromCsv(){
 
 }
 
+void TrajectorySender::testLinear()
+{
+
+    //    for (int var = 0; var < 10; ++var) {
+    double x = 0 ;
+    double y =  0 ;
+    double z = -70;
+    for (int var = 0; var < 10; var++) {
+       z-=var;
+
+    }
+}
+
 void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_drives)
 {
     /*should we check if all vectors inside points_for_drives have the same size?*/
@@ -133,6 +148,23 @@ void TrajectorySender::sendPointsToDrives(){
             SendCommand::getInstance()->SendPointTo4Drives(loadedPoints[0][i],loadedPoints[1][i],loadedPoints[2][i],loadedPoints[3][i]);
         }
     }
+}
+
+bool TrajectorySender::isDistanceZero(double start_drive1, double end_drive1, double start_drive2, double end_drive2, double start_drive3, double end_drive3)
+{
+    double distance1=end_drive1-start_drive1;
+    double distance2=end_drive2-start_drive2;
+    double distance3=end_drive3-start_drive3;
+    qDebug("distance1= %lf ,distance2= %lf ,distance3= %lf ",distance1,distance2,distance3);
+    if (!(distance1 < 0 || distance1 > 0)){
+        if(!(distance2 < 0 || distance2 > 0)){
+            if(!(distance3 < 0 || distance3 > 0)){
+                //this is not valid all distance is zero
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void TrajectorySender::run()
@@ -175,6 +207,10 @@ void TrajectorySender::run()
 
 
 
+//           x_end = x_start -0.001;
+//           for (int var = 0; var < 100; ++var) {
+//              x_start-=0.001;
+//              x_end-=0.001;
            double inverse_start_output[3];
            double inverse_end_output[3];
            InverseKinematicsCore core;
@@ -186,66 +222,88 @@ void TrajectorySender::run()
            qDebug("fetched position in robot state: theta 1: %lf theta 2:%lf, theta 3:%lf",inverse_start_output[0],inverse_start_output[1],inverse_start_output[2]);
            core.InverseKinematicsNew(x_end, y_end, z_end, inverse_end_output);
 
+           /*---------------------------------testing inverse---------------------------------------------------*/
+           //core.InverseKinematicsNew(0.000250252, 0.112717, -0.578326, inverse_start_output);
+           //core.InverseKinematicsNew(0.161748, 0.117002, -0.649968, inverse_end_output);
+           /*---------------------------------testing inverse---------------------------------------------------*/
+
+
+
            //TODO set this after send point to drive and change physical state
 //           RobotState::getInstance()->setAllCoordinates(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],
 //                                                        x_end, y_end, z_end);
+
+           if(isDistanceZero
+                   (inverse_start_output[0],inverse_end_output[0],
+                    inverse_start_output[1],inverse_end_output[1],
+                    inverse_start_output[2],inverse_end_output[2]))
+           {
+               KinematicsException expection("DISTANCE IS ZERO,DUPLICATED POINT");
+           }
+           //THE FOLLOWING LINE IS COMMENTED DUE TO THE POSSIBILITY OF SERIOUS BUGS WHICH MIGHT LEAD TO SERIOUS INCIDENTS
+           RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
            qDebug("newly set position in robot state: x: %lf y:%lf, z:%lf  theta 1:%lf theta 2:%lf theta 3:%lf",
                   x_end,y_end,z_end,inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
+
            //in this point we have start and end degree
 
            //sevenseg
-           SevenSegment M1;
-           SevenSegment M2;
-           SevenSegment M3;
-
-           M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 350, 10, 100, 0.001, 0.999);
-           M2.seven_segment(inverse_start_output[1], inverse_end_output[1], 0, 0, 350, 10, 100, 0.001, 0.999);
-           M3.seven_segment(inverse_start_output[2], inverse_end_output[2], 0, 0, 350, 10, 100, 0.001, 0.999);
-           double* q1 = 0;
-           double* q2 = 0;
-           double* q3 = 0;
-
-           ////interpolate
-           core.Interpolation(M1, M2, M3, &q1, &q2, &q3);
-
-           //all queues are filled now
-           //send points as messages
-
-           QVector<QVector<double>>points_for_all_drives;
 
 
-           for(int i=0;i<3;i++)
-           {
-               points_for_all_drives.push_back(QVector<double>());
-               //qDebug("added qvector");
+           try {
+               SevenSegment M1;
+               SevenSegment M2;
+               SevenSegment M3;
+               qDebug("inverse start 0=%lf,inverse start 1=%lf, inverse start 2=%lf",inverse_start_output[0],inverse_start_output[1],inverse_start_output[2]);
+               qDebug("inverse end 0=%lf,inverse end 1=%lf, inverse end 2=%lf",inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
+               M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 350, 10, 100, 0.001, 0.999);
+               M2.seven_segment(inverse_start_output[1], inverse_end_output[1], 0, 0, 350, 10, 100, 0.001, 0.999);
+               M3.seven_segment(inverse_start_output[2], inverse_end_output[2], 0, 0, 350, 10, 100, 0.001, 0.999);
+               double* q1 = 0;
+               double* q2 = 0;
+               double* q3 = 0;
+
+
+               ////interpolate
+               core.Interpolation(M1, M2, M3, &q1, &q2, &q3);
+
+               //all queues are filled now
+               //send points as messages
+
+               QVector<QVector<double>>points_for_all_drives;
+
+               for(int i=0;i<3;i++)
+               {
+                   points_for_all_drives.push_back(QVector<double>());
+                   //qDebug("added qvector");
+               }
+               int size_of_queues=core.size_of_trajectory_points;
+
+               //TODO: check i later: 0 or 1?
+               for(int i=1;i<size_of_queues;i++)
+               {
+                   points_for_all_drives[0].push_back(q1[i]);
+                   points_for_all_drives[1].push_back(q2[i]);
+                   points_for_all_drives[2].push_back(q3[i]);
+               }
+
+
+               sendPointsToDrives(points_for_all_drives);
+
+
+
+
+               delete[] q1;
+               delete[] q2;
+               delete[] q3;
+           } catch (KinematicsException ex) {
+               qDebug("Kinematic exception occured");
+
            }
-           int size_of_queues=core.size_of_trajectory_points;
-
-           //TODO: check i later: 0 or 1?
-           for(int i=1;i<size_of_queues;i++)
-           {
-               points_for_all_drives[0].push_back(q1[i]);
-               points_for_all_drives[1].push_back(q2[i]);
-               points_for_all_drives[2].push_back(q3[i]);
-           }
-
-
-           sendPointsToDrives(points_for_all_drives);
-
-           emit finishedSendingArrayPoints();
+            emit finishedSendingArrayPoints();
            qDebug("emitting finished sending array points");
-
-
-           delete[] q1;
-           delete[] q2;
-           delete[] q3;
-
-
-
-
-
+//}
         }else{
-
             emit startedSendingArrayPoints();
             sendPointsToDrives(this->arrayPoints);
             emit finishedSendingArrayPoints();
