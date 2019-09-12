@@ -104,6 +104,8 @@ private slots:
 
     void on_actionHtml_triggered();
 
+    void on_actionRl_triggered();
+
     void on_actionJava_triggered();
 
     bool confirmApplyTemplate();

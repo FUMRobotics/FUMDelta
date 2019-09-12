@@ -634,6 +634,7 @@ background-color: rgba(255, 255, 255, 0);</string>
     <addaction name="actionCss"/>
     <addaction name="actionHtml"/>
     <addaction name="actionJava"/>
+    <addaction name="actionRoboticLanguage"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -955,6 +956,11 @@ background-color: rgba(255, 255, 255, 0);</string>
   <action name="actionTommorrow_Night">
    <property name="text">
     <string>Tomorrow Night</string>
+   </property>
+  </action>
+  <action name="actionRoboticLanguage">
+   <property name="text">
+    <string>RoboticLanguage</string>
    </property>
   </action>
  </widget>

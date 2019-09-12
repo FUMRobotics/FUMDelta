@@ -46,8 +46,12 @@ int main(int argc, char *argv[])
 
 
     //qInstallMessageHandler(myMessageOutput); // Install the handler
+
     QApplication a(argc, argv);
-//    while (1) {
+
+    InterpreterCore* core=new InterpreterCore();
+    core->base();
+    //    while (1) {
 //        KinematicsState* test = new KinematicsState();
 //        KinematicsState* initial = new KinematicsState();
 //        KinematicsState* final = new KinematicsState();
@@ -103,8 +107,6 @@ int main(int argc, char *argv[])
 
     receiver.start();
 
-    InterpreterCore* core=new InterpreterCore();
-    core->base();
     qDebug("is running...");
 
 

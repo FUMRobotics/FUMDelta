@@ -13,6 +13,7 @@ public:
     QString getHtmlTemplate();
     QString getJavaTemplate();
     QString getCSSTemplate();
+    QString getRoboticLanguageTemplate();
 private:
 
 

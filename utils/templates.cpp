@@ -36,3 +36,10 @@ QString Templates::getCSSTemplate(){
     QString css = "* {\n\t\n}\n\nhtml {\n\t\n}\n\nbody {\n\tdisplay: block;\n\t\n}\n\nh1 {\n\t\n}\n\np {\n\t\n}\n\na {\n\t\n}\n\nimg {\n\t\n}";
     return css;
 }
+
+QString Templates::getRoboticLanguageTemplate()
+{
+    //TODO write template for robotic language
+    QString rl = "41546";
+    return rl;
+}

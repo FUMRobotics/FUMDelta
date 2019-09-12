@@ -201,7 +201,24 @@ SOURCES += \
     antlr4/runtime/Cpp/runtime/src/atn/AmbiguityInfo.cpp \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.cpp \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.cpp \
-    interpretercore.cpp
+    interpretercore.cpp \
+    statement.cpp \
+    variable.cpp \
+    intVariable.cpp \
+    boolVariable.cpp \
+    block.cpp \
+    posVariable.cpp \
+    conditionalBlock.cpp \
+    assignmentStatement.cpp \
+    linearMovementStatement.cpp \
+    ptpPosMovementStatement.cpp \
+    ptpAxisMovementStatement.cpp \
+    circularMovementStatement.cpp \
+    forStatement.cpp \
+    whileStatement.cpp \
+    ifStatement.cpp \
+    realVariable.cpp \
+    scope.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -385,7 +402,24 @@ HEADERS += \
     antlr4/runtime/Cpp/runtime/src/atn/AmbiguityInfo.h \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.h \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.h \
-    interpretercore.h
+    interpretercore.h \
+    statement.h \
+    variable.h \
+    intVariable.h \
+    boolVariable.h \
+    block.h \
+    posVariable.h \
+    conditionalBlock.h \
+    assignmentStatement.h \
+    linearMovementStatement.h \
+    circularMovementStatement.h \
+    ptpAxisMovementStatement.h \
+    ptpPosMovementStatement.h \
+    forStatement.h \
+    whileStatement.h \
+    ifStatement.h \
+    realVariable.h \
+    scope.h
 
 FORMS += \
     dialog_loadpoints.ui \
@@ -409,6 +443,6 @@ DISTFILES += \
     antlr4/runtime/Cpp/runtime/src/tree/xpath/XPathLexer.g4 \
     antlr4/runtime/Cpp/runtime/src/atn/Makefile
 
-INCLUDEPATH +=/home/fumdelta/Documents/eigen-eigen-323c052e1731/
-INCLUDEPATH +=/home/fumdelta/Documents/FumDelta/antlr4/runtime/Cpp/runtime/src/
-INCLUDEPATH+=/home/fumdelta/Documents/FumDelta/generated/
+INCLUDEPATH +=/home/fatemeh/Documents/fum_delta_13980609/eigen-eigen-323c052e1731/
+INCLUDEPATH +=/home/fatemeh/Documents/fum_delta_13980609/FumDelta/antlr4/runtime/Cpp/runtime/src
+INCLUDEPATH+=/home/fatemeh/Documents/fum_delta_13980609/FumDelta/generated
