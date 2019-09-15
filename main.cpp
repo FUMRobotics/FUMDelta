@@ -142,8 +142,7 @@ int main(int argc, char *argv[])
 
     receiver.start();
 
-    InterpreterCore* core=new InterpreterCore();
-    core->base();
+
     qDebug("is running...");
 
 

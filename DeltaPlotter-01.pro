@@ -218,7 +218,8 @@ SOURCES += \
     whileStatement.cpp \
     ifStatement.cpp \
     realVariable.cpp \
-    scope.cpp
+    scope.cpp \
+    robotstate.cpp
     robotstate.cpp
 
 HEADERS += \
@@ -420,7 +421,8 @@ HEADERS += \
     whileStatement.h \
     ifStatement.h \
     realVariable.h \
-    scope.h
+    scope.h \
+    robotstate.h
     robotstate.h
 
 FORMS += \
