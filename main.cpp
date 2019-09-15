@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
 
 //    while (1) {
 
-    InterpreterCore* core=new InterpreterCore();
-    core->base();
+//    InterpreterCore* core=new InterpreterCore();
+//    core->base();
     //    while (1) {
 //        KinematicsState* test = new KinematicsState();
 //        KinematicsState* initial = new KinematicsState();

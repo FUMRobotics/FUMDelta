@@ -7,6 +7,7 @@
 #include <QTabWidget>
 
 #include "QDebug"
+#include "interpretercore.h"
 
 #include "widgets/geisttextedit.h"
 
@@ -706,6 +707,9 @@ void CodeEditor::on_actionRun_triggered()
 {
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
+    // in here start interpreter
+    InterpreterCore* core=new InterpreterCore();
+    core->parsText(currentEditorWidget->toPlainText());
     highlightRunningLine(lineColor);
 }
 
