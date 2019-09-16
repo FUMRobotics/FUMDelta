@@ -6,6 +6,7 @@ TrajectorySender::TrajectorySender(QString trajectoryFilePath, int numberOfDrive
 {
     this->numberOfDrive = numberOfDrive;
     this->trajectoryFilePath = trajectoryFilePath;
+
     this->start();
 }
 
@@ -163,11 +164,29 @@ void TrajectorySender::ptpCore(double inverse_start_output[], double inverse_end
             points_for_all_drives[2].push_back(q3[i]);
         }
 
+        //TODO: while loop to check actual position and target position before sending points
+//        double starting_point_drive0=points_for_all_drives[0][0];
+//        double starting_point_drive1=points_for_all_drives[1][0];
+//        double starting_point_drive2=points_for_all_drives[2][0];
+
+//        double actual_starting_point_drive0=RobotState::getInstance()->getAngle(0);
+//        double actual_starting_point_drive1=RobotState::getInstance()->getAngle(1);
+//        double actual_starting_point_drive2=RobotState::getInstance()->getAngle(2);
+
+//        qDebug("\n\nstarting point for drive 0=%lf",points_for_all_drives[0][0]);
+//        qDebug("starting point for drive 1=%lf",points_for_all_drives[1][0]);
+//        qDebug("\n\nstarting point for drive 2=%lf",points_for_all_drives[2][0]);
+//        //if(abs(starting_point_drive0-RobotState::getInstance()->))
+//        while(
+//              (starting_point_drive0-actual_starting_point_drive0)>50||
+//              (starting_point_drive1-actual_starting_point_drive1)>50||
+//              (starting_point_drive2-actual_starting_point_drive2)>50
+//              )
+//        {
+//            //wait here until  the differences are valid
+//        }
 
         sendPointsToDrives(points_for_all_drives);
-
-
-
 
         delete[] q1;
         delete[] q2;
@@ -192,7 +211,6 @@ void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_d
 
     for (int i = 0; i < points_for_drives[0].size(); ++i) {
        SendCommand::getInstance()->SendPointTo3Drives(points_for_drives[0][i],points_for_drives[1][i],points_for_drives[2][i]);
-
     }
 }
 
@@ -307,7 +325,7 @@ void TrajectorySender::run()
 
 
            //TODO set this after send point to drive and change physical state
-//           RobotState::getInstance()->setAllCoordinates(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],
+//           RobotState::getInst0ance()->setAllCoordinates(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],
 //                                                        x_end, y_end, z_end);
 
            if(isDistanceZero
@@ -318,8 +336,7 @@ void TrajectorySender::run()
                KinematicsException expection("DISTANCE IS ZERO,DUPLICATED POINT");
            }
            //THE FOLLOWING LINE IS COMMENTED DUE TO THE POSSIBILITY OF SERIOUS BUGS WHICH MIGHT LEAD TO SERIOUS INCIDENTS
-           RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
-           //RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
+          // RobotState::getInstance()->setAngles(inverse_end_output[0],inverse_end_output[1],inverse_end_output[2],0);
            qDebug("newly set position in robot state: x: %lf y:%lf, z:%lf  theta 1:%lf theta 2:%lf theta 3:%lf",
                   x_end,y_end,z_end,inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
 

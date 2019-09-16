@@ -26,8 +26,9 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
         alima = 0;
         alimd = 0;
         qDebug( "dist is zero ");
+
         //KinematicsException
-        //throw KinematicsException("distance is zero",false);
+        throw KinematicsException("distance is zero",false);
         //=new KinematicsException("distance is zero");
     }
     // ask about the if  and landa values

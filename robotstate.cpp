@@ -20,6 +20,28 @@ void RobotState::getAngles(double angles[])
     angles[2]=drive_2_angle;
 }
 
+double RobotState::getAngle(int index)
+{
+    double return_value=0;
+    switch (index) {
+    case 0:
+        return_value = drive_0_angle;
+        break;
+    case 1:
+        return_value = drive_1_angle;
+        break;
+    case 2:
+        return_value = drive_2_angle;
+        break;
+    case 3:
+        return_value = drive_3_angle;
+        break;
+    default:
+        break;
+    }
+    return return_value;
+}
+
 void RobotState::setAngles(double angle_0, double angle_1, double angle_2,double angle_3)
 {
     drive_0_angle=angle_0;
