@@ -13,6 +13,7 @@ SendCommand::SendCommand(QObject *parent) : QObject(parent)
 
     if ((msqid = msgget(key, msgflg )) < 0) {
         perror("msgget");
+        //TODO Send Exception HERE
         //exit(1);
     }
     else

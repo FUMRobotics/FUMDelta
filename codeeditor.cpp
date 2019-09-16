@@ -7,6 +7,7 @@
 #include <QTabWidget>
 #include <unistd.h>
 #include "QDebug"
+#include "interpretercore.h"
 
 #include "widgets/geisttextedit.h"
 
@@ -681,6 +682,15 @@ void CodeEditor::on_actionCss_triggered(){
         }
     }
 }
+void CodeEditor::on_actionRl_triggered(){
+    if (currentEditorWidget->toPlainText() == ""){
+        currentEditorWidget->setPlainText(templates.getRoboticLanguageTemplate());
+    } else {
+        if (confirmApplyTemplate()){
+            currentEditorWidget->setPlainText(templates.getRoboticLanguageTemplate());
+        }
+    }
+}
 
 void CodeEditor::on_actionRoboticLanguage_triggered()
 {
@@ -698,6 +708,10 @@ void CodeEditor::on_actionRun_triggered()
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
     highlightRunningLine(QColor(249,166,2));
+    // in here start interpreter
+    InterpreterCore* core=new InterpreterCore();
+    core->parsText(currentEditorWidget->toPlainText());
+    highlightRunningLine(lineColor);
 }
 
 /*

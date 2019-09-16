@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 
 
     //qInstallMessageHandler(myMessageOutput); // Install the handler
+
     QApplication a(argc, argv);
 
     //remove all queue
@@ -73,6 +74,10 @@ int main(int argc, char *argv[])
 
 
 //    while (1) {
+
+//    InterpreterCore* core=new InterpreterCore();
+//    core->base();
+    //    while (1) {
 //        KinematicsState* test = new KinematicsState();
 //        KinematicsState* initial = new KinematicsState();
 //        KinematicsState* final = new KinematicsState();
@@ -122,10 +127,7 @@ int main(int argc, char *argv[])
 
     receiver.start();
 
-    QProcess *startDrivesProcess=new QProcess() ;
-    QProcess process2;
 
-    process2.startDetached("/bin/sh", QStringList()<< "/home/fumdelta/start_drivers_via_main.sh");
 
     startDrivesProcess->waitForFinished(-1); // will wait forever until finished
     qDebug("finished waiting for drives startup");

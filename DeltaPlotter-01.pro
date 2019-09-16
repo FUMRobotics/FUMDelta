@@ -202,6 +202,24 @@ SOURCES += \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.cpp \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.cpp \
     interpretercore.cpp \
+    statement.cpp \
+    variable.cpp \
+    intVariable.cpp \
+    boolVariable.cpp \
+    block.cpp \
+    posVariable.cpp \
+    conditionalBlock.cpp \
+    assignmentStatement.cpp \
+    linearMovementStatement.cpp \
+    ptpPosMovementStatement.cpp \
+    ptpAxisMovementStatement.cpp \
+    circularMovementStatement.cpp \
+    forStatement.cpp \
+    whileStatement.cpp \
+    ifStatement.cpp \
+    realVariable.cpp \
+    scope.cpp \
+    robotstate.cpp
     robotstate.cpp
 
 HEADERS += \
@@ -387,6 +405,24 @@ HEADERS += \
     antlr4/runtime/Cpp/runtime/src/atn/ActionTransition.h \
     antlr4/runtime/Cpp/runtime/src/atn/AbstractPredicateTransition.h \
     interpretercore.h \
+    statement.h \
+    variable.h \
+    intVariable.h \
+    boolVariable.h \
+    block.h \
+    posVariable.h \
+    conditionalBlock.h \
+    assignmentStatement.h \
+    linearMovementStatement.h \
+    circularMovementStatement.h \
+    ptpAxisMovementStatement.h \
+    ptpPosMovementStatement.h \
+    forStatement.h \
+    whileStatement.h \
+    ifStatement.h \
+    realVariable.h \
+    scope.h \
+    robotstate.h
     robotstate.h
 
 FORMS += \
