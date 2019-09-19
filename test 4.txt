@@ -1,0 +1,6 @@
+DEF movement()
+DECL INT I, J, K
+DECL BOOLEAN SW
+O = 1
+I = 10
+END
