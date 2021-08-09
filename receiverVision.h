@@ -1,5 +1,5 @@
-#ifndef RECIEVER_H
-#define RECIEVER_H
+#ifndef RECIEVERVISION_H
+#define RECIEVERVISION_H
 
 #include <QObject>
 #include <QThread>
@@ -35,7 +35,7 @@ private:
     /* Flush the data every ... cycle */
     int FLUSH_CYCLE =60000;
     int NUMBER_OF_motorpulse=524287;
-    int GEARBOX_RATIO=10;
+    int GEARBOX_RATIO=20;
     void run();
 public:
     explicit ReceiverVision(QObject *parent = nullptr);

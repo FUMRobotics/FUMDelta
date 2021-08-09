@@ -15,7 +15,7 @@ void SevenSegment::seven_segment(double q0, double q1, double v0, double v1, dou
     double Tv; // constant velocity period
     double T;
 
-
+    //this not work TODO why check value equal zero not work>?
     if (!(dist < 0 || dist > 0)) {
         timet = 0;
         qadad = q0;      // assssssssssssssssk
