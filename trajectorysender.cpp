@@ -133,17 +133,25 @@ void TrajectorySender::ptpCore(double inverse_start_output[], double inverse_end
         SevenSegment M1;
         SevenSegment M2;
         SevenSegment M3;
-        M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 350, 10, 100, 0.001, 0.999);
-        M2.seven_segment(inverse_start_output[1], inverse_end_output[1], 0, 0, 350, 10, 100, 0.001, 0.999);
-        M3.seven_segment(inverse_start_output[2], inverse_end_output[2], 0, 0, 350, 10, 100, 0.001, 0.999);
+        qDebug("seven segment 1 from= %lf ,to= %lf",inverse_start_output[0],inverse_end_output[0]);
+//        M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 350, 10, 100, 0.001, 0.999);
+//        (double q0, double q1, double v0, double v1, double vmax, double amax, double jmax, double dt, double lamda)
+        M1.seven_segment(inverse_start_output[0], inverse_end_output[0], 0, 0, 1300, 15, 210, 0.001, 0.999);
+        qDebug("seven segment 1 done");
+        qDebug("seven segment 2 from= %lf ,to= %lf",inverse_start_output[1],inverse_end_output[1]);
+        M2.seven_segment(inverse_start_output[1], inverse_end_output[1], 0, 0, 1300, 15, 210, 0.001, 0.999);
+        qDebug("seven segment 2 done");
+        qDebug("seven segment 3 from= %lf ,to= %lf",inverse_start_output[2],inverse_end_output[2]);
+        M3.seven_segment(inverse_start_output[2], inverse_end_output[2], 0, 0, 1300, 15, 210, 0.001, 0.999);
+        qDebug("seven segment 3 done");
         double* q1 = 0;
         double* q2 = 0;
         double* q3 = 0;
 
-
+        qDebug("seven segments all done");
         ////interpolate
         core.Interpolation(M1, M2, M3, &q1, &q2, &q3);
-
+        qDebug("interpoloation done");
         //all queues are filled now
         //send points as messages
 
@@ -193,7 +201,6 @@ void TrajectorySender::ptpCore(double inverse_start_output[], double inverse_end
         delete[] q3;
     } catch (KinematicsException ex) {
         qDebug("Kinematic exception occured");
-
     }
 }
 
@@ -210,6 +217,8 @@ void TrajectorySender::sendPointsToDrives(QVector<QVector<double>> &points_for_d
     }
 
     for (int i = 0; i < points_for_drives[0].size(); ++i) {
+//        qDebug("sending points %d %d %d",points_for_drives[0][i],points_for_drives[1][i],points_for_drives[2][i]);
+
        SendCommand::getInstance()->SendPointTo3Drives(points_for_drives[0][i],points_for_drives[1][i],points_for_drives[2][i]);
     }
 }
@@ -219,7 +228,7 @@ void TrajectorySender::sendPointsToDrives(){
         qDebug("we can't run this trajectroy ");
         quit(); //:)
     }
-    for (int var = 0; var < 10; var++) {
+    for (int var = 0; var < 1; var++) {
         for (int i = 0; i < loadedPoints[0].size(); i++) {
             SendCommand::getInstance()->SendPointTo4Drives(loadedPoints[0][i],loadedPoints[1][i],loadedPoints[2][i],loadedPoints[3][i]);
         }
@@ -315,7 +324,8 @@ void TrajectorySender::run()
 
            RobotState::getInstance()->getAngles(inverse_start_output);
            qDebug("fetched position in robot state: theta 1: %lf theta 2:%lf, theta 3:%lf",inverse_start_output[0],inverse_start_output[1],inverse_start_output[2]);
-           core.InverseKinematicsNew(x_end, y_end, z_end, inverse_end_output);
+           core.InverseKinematicsNew(x_end * 1000, y_end * 1000, z_end * 1000, inverse_end_output);
+           qDebug("calculate position robot: theta 1: %lf theta 2:%lf, theta 3:%lf",inverse_end_output[0],inverse_end_output[1],inverse_end_output[2]);
 
            /*---------------------------------testing inverse---------------------------------------------------*/
            //core.InverseKinematicsNew(0.000250252, 0.112717, -0.578326, inverse_start_output);
@@ -343,7 +353,7 @@ void TrajectorySender::run()
            //in this point we have start and end degree
 
            //sevenseg
-
+            qDebug("start to send ptp codre");
             ptpCore(inverse_start_output,inverse_end_output,core);
             emit finishedSendingArrayPoints();
            qDebug("emitting finished sending array points");

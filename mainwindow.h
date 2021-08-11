@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "qcustomplot.h"
 #include "receiver.h"
+#include "receiverVision.h"
 #include "sendcommand.h"
 #include "dialog_loadpoints.h"
 #include "codeeditor.h"

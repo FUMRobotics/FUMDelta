@@ -400,7 +400,7 @@ void InverseKinematicsCore::circ(double X0, double Y0, double Z0, double Ro0, do
 void InverseKinematicsCore::InverseKinematicsNew(double x, double y, double z, double finalTeta[])
 {
     // varibales for IK
-
+    qDebug("values of position: %lf , %lf , %lf",x,y,z);
     static const int alpha[3] = { 0, 120, 240 };
     static const double r = 130; double la = 270; double lb = 740;
     static const int e = 1;
@@ -441,13 +441,14 @@ void InverseKinematicsCore::InverseKinematicsNew(double x, double y, double z, d
         }
         for (int i = 0; i < 3; i++) {
             finalTeta[i] = tteta[i][1];
-
         }
 
     }
     else {
-        cout << "not in workspace";
+        qDebug("not in workspace");
+//        cout << "not in workspace";
     }
+    qDebug("values of finalTheta: %f , %f , %f",finalTeta[0],finalTeta[1],finalTeta[2]);
 
 }
 

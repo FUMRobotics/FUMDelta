@@ -2,6 +2,7 @@
 #include <QApplication>
 #include "sevensegment.h"
 #include "inversekinematicscore.h"
+#include "receiverVision.h"
 #include "receiver.h"
 #include <QtGlobal>
 #include <stdio.h>
@@ -72,6 +73,14 @@ int main(int argc, char *argv[])
         qDebug("The OLD 1235:receiver queue was unsuccessful removed.");
     }
 
+    msg_queue_key = msgget(1239 , IPC_CREAT | 0666);
+    //the queu exists
+    if (!(msgctl(msg_queue_key, IPC_RMID, nullptr)))
+    {
+        qDebug("The OLD 1239:command queue was successfully removed.");
+    }else{
+        qDebug("The OLD 1239:receiver queue was unsuccessful removed.");
+    }
 
 //    while (1) {
 
@@ -122,10 +131,17 @@ int main(int argc, char *argv[])
     //start drives
     //start ethercat and drives
     Receiver receiver;
+    ReceiverVision receiverVision;
 
     MainWindow w(&receiver);
 
     receiver.start();
+    receiverVision.start();
+
+    QProcess *startDrivesProcess=new QProcess() ;
+    QProcess process2;
+
+    process2.startDetached("/bin/sh", QStringList()<< "/home/fumdelta/start_drivers_via_main.sh");
 
 
 

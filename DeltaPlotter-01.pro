@@ -219,7 +219,8 @@ SOURCES += \
     ifStatement.cpp \
     realVariable.cpp \
     scope.cpp \
-    robotstate.cpp
+    robotstate.cpp \
+    receiverVision.cpp
     robotstate.cpp
 
 HEADERS += \
@@ -422,7 +423,8 @@ HEADERS += \
     ifStatement.h \
     realVariable.h \
     scope.h \
-    robotstate.h
+    robotstate.h \
+    receiverVision.h
     robotstate.h
 
 FORMS += \

@@ -192,108 +192,115 @@ public:
   virtual void enterStatement(TParser::StatementContext * ctx) override
   {
       statement* sta;
-      if(ctx->children[0]->getText() == "FOR")
-      {
-          if(ctx->children[6]->getText() == "STEP")
-          {
-              sta = new forStatement(variablesSet[ctx->children[1]->getText()], stoi(ctx->children[3]->getText()), stoi(ctx->children[5]->getText()), stoi(ctx->children[7]->getText()));
-          }
-          else
-          {
-              sta = new forStatement(variablesSet[ctx->children[1]->getText()], stoi(ctx->children[3]->getText()), stoi(ctx->children[5]->getText()), 1);
-          }
 
-      }
-      else if(ctx->children[0]->getText() == "WHILE")
-      {
+      qDebug()<<"Enter Statement Text "<<ctx->getText().c_str()<<"size of children"<<ctx->children.size();
 
-      }
-      else if(ctx->children[0]->getText() == "IF")
+      if(ctx->children.size()==1)
       {
-          if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "INT")
-          {
-              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), stoi(ctx->children[1]->children[2]->getText()));
-          }
-          else if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "BOOLEAN")
-          {
-              bool b;
-              std::istringstream(ctx->children[1]->children[2]->getText()) >> std::boolalpha >> b;
-              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), b);
-          }
-          else if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "REAL")
-          {
-              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), stod(ctx->children[1]->children[2]->getText()));
-          }
+          return;
+      }
+//      if(ctx->children[0]->getText() == "FOR")
+//      {
+//          if(ctx->children[6]->getText() == "STEP")
+//          {
+//              sta = new forStatement(variablesSet[ctx->children[1]->getText()], stoi(ctx->children[3]->getText()), stoi(ctx->children[5]->getText()), stoi(ctx->children[7]->getText()));
+//          }
+//          else
+//          {
+//              sta = new forStatement(variablesSet[ctx->children[1]->getText()], stoi(ctx->children[3]->getText()), stoi(ctx->children[5]->getText()), 1);
+//          }
 
-          static_cast<ifStatement*>(sta)->setHasElse(ctx->children.size() > 7);
-      }
-      else if(ctx->children[0]->getText() == "LIN")
-      {
-          sta = new linearMovementStatement(stod(ctx->children[1]->children[1]->children[0]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[1]->children[2]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[1]->children[4]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[1]->children[6]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[1]->children[8]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[1]->children[10]->children[1]->getText()));
-      }
-      else if(ctx->children[0]->getText() == "CIRC")
-      {
-          sta = new circularMovementStatement(static_cast<posVariable*>(variablesSet[ctx->children[1]->getText()]),
-                                              static_cast<posVariable*>(variablesSet[ctx->children[3]->getText()]));
-      }
-      else if(ctx->children[0]->getText() == "PTP" && ctx->children[1]->children[1]->getText() == "POS")
-      {
-          sta = new ptpPosMovementStatement(stod(ctx->children[1]->children[3]->children[0]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[2]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[4]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[6]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[8]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[10]->children[1]->getText()));
+//      }
+//      else if(ctx->children[0]->getText() == "WHILE")
+//      {
 
-      }
-      else if(ctx->children[0]->getText() == "PTP" && ctx->children[1]->children[1]->getText() == "AXIS")
-      {
-          sta = new ptpAxisMovementStatement(stod(ctx->children[1]->children[3]->children[0]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[2]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[4]->children[1]->getText()),
-                                            stod(ctx->children[1]->children[3]->children[6]->children[1]->getText()));
-      }
-      else
-      {
-          if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "INT")
-          {
-              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], stoi(ctx->children[0]->children[2]->getText()));
-          }
-          else if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "REAL")
-          {
-              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], stod(ctx->children[0]->children[2]->getText()));
+//      }
+//      else if(ctx->children[0]->getText() == "IF")
+//      {
+//          if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "INT")
+//          {
+//              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), stoi(ctx->children[1]->children[2]->getText()));
+//          }
+//          else if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "BOOLEAN")
+//          {
+//              bool b;
+//              std::istringstream(ctx->children[1]->children[2]->getText()) >> std::boolalpha >> b;
+//              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), b);
+//          }
+//          else if(variablesSet[ctx->children[1]->children[0]->getText()]->getType() == "REAL")
+//          {
+//              sta = new ifStatement(variablesSet[ctx->children[1]->children[0]->getText()], ctx->children[1]->children[1]->getText(), stod(ctx->children[1]->children[2]->getText()));
+//          }
 
-          }
-          else if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "BOOLEAN")
-          {
-              bool b;
-              std::istringstream(ctx->children[0]->children[2]->getText()) >> std::boolalpha >> b;
-              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], b);
-          }
-      }
+//          static_cast<ifStatement*>(sta)->setHasElse(ctx->children.size() > 7);
+//      }
+//      else if(ctx->children[0]->getText() == "LIN")
+//      {
+//          sta = new linearMovementStatement(stod(ctx->children[1]->children[1]->children[0]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[1]->children[2]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[1]->children[4]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[1]->children[6]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[1]->children[8]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[1]->children[10]->children[1]->getText()));
+//      }
+//      else if(ctx->children[0]->getText() == "CIRC")
+//      {
+//          sta = new circularMovementStatement(static_cast<posVariable*>(variablesSet[ctx->children[1]->getText()]),
+//                                              static_cast<posVariable*>(variablesSet[ctx->children[3]->getText()]));
+//      }
+//      else if(ctx->children[0]->getText() == "PTP" && ctx->children[1]->children[1]->getText() == "POS")
+//      {
+//          sta = new ptpPosMovementStatement(stod(ctx->children[1]->children[3]->children[0]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[2]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[4]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[6]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[8]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[10]->children[1]->getText()));
 
-      if(sta->getType() == "FOR")
-      {
-          scope* s =  new scope(scopes[currScopeNum], "FOR");
-          scopes.push_back(s);
-          currScopeNum++;
-      }
-      else if(sta->getType() == "WHILE")
-      {
-          scope* s =  new scope(scopes[currScopeNum], "WHILE");
-          scopes.push_back(s);
-          currScopeNum++;
+//      }
+//      else if(ctx->children[0]->getText() == "PTP" && ctx->children[1]->children[1]->getText() == "AXIS")
+//      {
+//          sta = new ptpAxisMovementStatement(stod(ctx->children[1]->children[3]->children[0]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[2]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[4]->children[1]->getText()),
+//                                            stod(ctx->children[1]->children[3]->children[6]->children[1]->getText()));
+//      }
+//      else
+//      {
+//          if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "INT")
+//          {
+//              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], stoi(ctx->children[0]->children[2]->getText()));
+//          }
+//          else if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "REAL")
+//          {
+//              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], stod(ctx->children[0]->children[2]->getText()));
 
-      }
-      else if(sta->getType() == "IF")
-      {
+//          }
+//          else if(variablesSet[ctx->children[0]->children[0]->getText()]->getType() == "BOOLEAN")
+//          {
+//              bool b;
+//              std::istringstream(ctx->children[0]->children[2]->getText()) >> std::boolalpha >> b;
+//              sta = new assignmentStatement(variablesSet[ctx->children[0]->children[0]->getText()], b);
+//          }
+//      }
 
-      }
+//      if(sta->getType() == "FOR")
+//      {
+//          scope* s =  new scope(scopes[currScopeNum], "FOR");
+//          scopes.push_back(s);
+//          currScopeNum++;
+//      }
+//      else if(sta->getType() == "WHILE")
+//      {
+//          scope* s =  new scope(scopes[currScopeNum], "WHILE");
+//          scopes.push_back(s);
+//          currScopeNum++;
+
+//      }
+//      else if(sta->getType() == "IF")
+//      {
+
+//      }
   }
   virtual void exitStatement(TParser::StatementContext * ctx) override
   {
