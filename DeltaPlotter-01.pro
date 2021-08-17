@@ -455,6 +455,8 @@ INCLUDEPATH += /Users/Sadra/Desktop/PythonQt/boost_1_77_0
 CONFIG += console
 
 
+
+#TODO clean libraries
 mac: LIBS += -F$$PWD/../../../../../../../Library/Frameworks/ -framework Python
 else:unix: LIBS += -L$$PWD/../../../../../../../Library/Frameworks/ -lPython
 
@@ -463,3 +465,17 @@ DEPENDPATH += $$PWD/../../../../../../../Library/Frameworks
 
 INCLUDEPATH += /Library/Frameworks/Python.framework/Versions/3.9/include/python3.9/
 DEPENDPATH += /Library/Frameworks/Python.framework/Versions/3.9/include/python3.9/
+
+unix: LIBS += -L$$PWD/../../../../PythonQt/boost_1_77_0/stage/lib/ -lboost_python39
+
+INCLUDEPATH += $$PWD/../../../../PythonQt/boost_1_77_0/stage
+DEPENDPATH += $$PWD/../../../../PythonQt/boost_1_77_0/stage
+
+unix: PRE_TARGETDEPS += $$PWD/../../../../PythonQt/boost_1_77_0/stage/lib/libboost_python39.a
+
+unix: LIBS += -L$$PWD/../../../../PythonQt/boost_1_77_0/stage/lib/ -lboost_system
+
+INCLUDEPATH += $$PWD/../../../../PythonQt/boost_1_77_0/stage
+DEPENDPATH += $$PWD/../../../../PythonQt/boost_1_77_0/stage
+
+unix: PRE_TARGETDEPS += $$PWD/../../../../PythonQt/boost_1_77_0/stage/lib/libboost_system.a

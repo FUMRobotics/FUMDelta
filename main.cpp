@@ -47,6 +47,21 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     ts << txt << endl;
 }
 
+
+/*TEST FUNCTIONALITY OF BOOST.PYTHON*/
+/************************************/
+void api_call()
+{
+     qDebug("API FUNCTION");
+}
+
+BOOST_PYTHON_MODULE(API)
+{
+      boost::python::def("api_call", api_call);
+}
+/************************************/
+/*TEST FUNCTIONALITY OF BOOST.PYTHON*/
+
 int main(int argc, char *argv[])
 {
     //TODO : find out actual x,y,z for home(or what the drives percieve as home) the x,y,z needs to be stored and given as initial positon to inverse kinematics
@@ -62,6 +77,19 @@ int main(int argc, char *argv[])
 
 
 
+
+    // Import your module to embedded Python
+        PyImport_AppendInittab("API", PyInit_API);
+
+        // Initialise Python
+        Py_Initialize();
+
+        // Run Python code
+        PyRun_SimpleString("import API\n"
+                           "API.api_call()\n");
+
+
+        qDebug("Api called from python");
 
     // Initial python for scripting feature
     //remove all queue
