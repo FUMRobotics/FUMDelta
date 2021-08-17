@@ -45,6 +45,12 @@ public:
               double  amax,double jmax,double  X2,
               double Y2,double Z2,double Ta);
 
+
+    //Test function to use it with cppyy library
+    void callFromPy(){
+        qDebug("Called from python");
+    }
+
     static bool isPositionValid(double x,double y, double z);
     Eigen::Quaterniond ToQuaternion(double yaw, double pitch, double roll);
 

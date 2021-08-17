@@ -1,4 +1,9 @@
 #include "mainwindow.h"
+
+#pragma push_macro("slots")
+#undef slots
+#include <boost/python.hpp>
+#pragma pop_macro("slots")
 #include <QApplication>
 #include "sevensegment.h"
 #include "inversekinematicscore.h"
@@ -8,6 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "interpretercore.h"
+
+
+
+using namespace boost::python;
+
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -50,6 +60,10 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+
+
+
+    // Initial python for scripting feature
     //remove all queue
     //we should remove queue whit id 1234 1235
     key_t msg_queue_key = msgget(1234 , IPC_CREAT | 0666);

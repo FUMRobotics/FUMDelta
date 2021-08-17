@@ -707,11 +707,10 @@ void CodeEditor::on_actionRun_triggered()
 {
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
-    highlightRunningLine(QColor(249,166,2));
     // in here start interpreter
-    InterpreterCore* core=new InterpreterCore();
-    core->parsText(currentEditorWidget->toPlainText());
-    highlightRunningLine(lineColor);
+//    InterpreterCore* core=new InterpreterCore();
+//    core->parsText(currentEditorWidget->toPlainText());
+//    highlightRunningLine(lineColor);
 }
 
 /*

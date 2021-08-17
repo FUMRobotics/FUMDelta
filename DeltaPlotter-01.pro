@@ -433,7 +433,6 @@ FORMS += \
     mainwindow.ui \
     codeeditor.ui
 
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -449,7 +448,18 @@ DISTFILES += \
     antlr4/runtime/Cpp/runtime/src/tree/xpath/XPathLexer.tokens \
     antlr4/runtime/Cpp/runtime/src/tree/xpath/XPathLexer.g4 \
     antlr4/runtime/Cpp/runtime/src/atn/Makefile
+INCLUDEPATH += eigen/
+INCLUDEPATH += antlr4/runtime/Cpp/runtime/src/
+INCLUDEPATH += generated/
+INCLUDEPATH += /Users/Sadra/Desktop/PythonQt/boost_1_77_0
+CONFIG += console
 
-INCLUDEPATH +=eigen/
-INCLUDEPATH +=antlr4/runtime/Cpp/runtime/src/
-INCLUDEPATH+=generated/
+
+mac: LIBS += -F$$PWD/../../../../../../../Library/Frameworks/ -framework Python
+else:unix: LIBS += -L$$PWD/../../../../../../../Library/Frameworks/ -lPython
+
+INCLUDEPATH += $$PWD/../../../../../../../Library/Frameworks
+DEPENDPATH += $$PWD/../../../../../../../Library/Frameworks
+
+INCLUDEPATH += /Library/Frameworks/Python.framework/Versions/3.9/include/python3.9/
+DEPENDPATH += /Library/Frameworks/Python.framework/Versions/3.9/include/python3.9/
