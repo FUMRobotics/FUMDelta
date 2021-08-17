@@ -46,7 +46,7 @@ public:
               double Y2,double Z2,double Ta);
 
 
-    //Test function to use it with cppyy library
+    //Test function to use it with Boost.Py library
     void callFromPy(){
         qDebug("Called from python");
     }

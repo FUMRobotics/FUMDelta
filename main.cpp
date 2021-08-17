@@ -50,14 +50,19 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 /*TEST FUNCTIONALITY OF BOOST.PYTHON*/
 /************************************/
-void api_call()
+void api_call(int a)
 {
-     qDebug("API FUNCTION");
+     qDebug("API FUNCTION %d" , a);
 }
 
+
+//Create Python library to use it in python codes
+//instance of IKCore is needed
 BOOST_PYTHON_MODULE(API)
 {
-      boost::python::def("api_call", api_call);
+    class_<InverseKinematicsCore> obj("InverseKinematicsCore");
+      obj.def("callFromPy",&InverseKinematicsCore::callFromPy);
+
 }
 /************************************/
 /*TEST FUNCTIONALITY OF BOOST.PYTHON*/
@@ -75,20 +80,14 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-
-
-
     // Import your module to embedded Python
         PyImport_AppendInittab("API", PyInit_API);
-
         // Initialise Python
         Py_Initialize();
-
         // Run Python code
         PyRun_SimpleString("import API\n"
-                           "API.api_call()\n");
-
-
+                           "c = API.InverseKinematicsCore()\n"
+                           "c.callFromPy()\n");
         qDebug("Api called from python");
 
     // Initial python for scripting feature
