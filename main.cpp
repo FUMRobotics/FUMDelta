@@ -1,5 +1,6 @@
 #include "mainwindow.h"
-
+// maximum number of args can method have redefined
+#define BOOST_PYTHON_MAX_ARITY 22
 #pragma push_macro("slots")
 #undef slots
 #include <boost/python.hpp>
@@ -60,9 +61,22 @@ void api_call(int a)
 //instance of IKCore is needed
 BOOST_PYTHON_MODULE(API)
 {
+    // adding IKCore methods to API lib for python usage
     class_<InverseKinematicsCore> obj("InverseKinematicsCore");
       obj.def("callFromPy",&InverseKinematicsCore::callFromPy);
-
+      obj.def("linear",&InverseKinematicsCore::linear, args("X0","Y0","Z0","Ro0",
+                                                            "Pi0",  "Ya0",  "v0",  "X1",
+                                                             "Y1",  "Z1", "Ro1", "Pi1",
+                                                             "Ya1", "v1", "vmax",
+                                                            "amax", "jmax"));
+      obj.def("circ",&InverseKinematicsCore::circ, args( "X0",  "Y0","Z0",
+                                                    "Ro0",  "Pi0",  "Ya0",
+                                                    "v0",  "X1", "Y1",
+                                                    "Z1", "Ro1", "Pi1",
+                                                    "Ya1", "v1",  "vmax",
+                                                     "amax", "jmax",  "X2",
+                                                    "Y2", "Z2", "Ta"));
+      obj.def("IKnew",&InverseKinematicsCore::InverseKinematicsNewProxy,boost::python::args("x","y","z","finalTeta"));
 }
 /************************************/
 /*TEST FUNCTIONALITY OF BOOST.PYTHON*/
@@ -84,10 +98,8 @@ int main(int argc, char *argv[])
         PyImport_AppendInittab("API", PyInit_API);
         // Initialise Python
         Py_Initialize();
-        // Run Python code
-        PyRun_SimpleString("import API\n"
-                           "c = API.InverseKinematicsCore()\n"
-                           "c.callFromPy()\n");
+
+        //now we can run python code from run action on code editor ui
         qDebug("Api called from python");
 
     // Initial python for scripting feature

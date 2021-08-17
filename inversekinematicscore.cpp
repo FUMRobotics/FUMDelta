@@ -194,6 +194,8 @@ void InverseKinematicsCore::Interpolation(SevenSegment& M1, SevenSegment& M2, Se
 
 void InverseKinematicsCore::linear(double X0, double Y0, double Z0, double Ro0, double Pi0, double Ya0, double v0, double X1, double Y1, double Z1, double Ro1, double Pi1, double Ya1, double v1, double vmax, double amax, double jmax)
 {
+
+    qDebug("IKCORE : Linear function called");
     double D0 = 0;
     double D1 = sqrt(pow((X1 - X0), 2) + pow((Y1 - Y0), 2) + pow((Z1 - Z0), 2));
 
@@ -273,6 +275,7 @@ void InverseKinematicsCore::linear(double X0, double Y0, double Z0, double Ro0, 
 
 void InverseKinematicsCore::circ(double X0, double Y0, double Z0, double Ro0, double Pi0, double Ya0, double v0, double X1, double Y1, double Z1, double Ro1, double Pi1, double Ya1, double v1, double vmax, double amax, double jmax, double X2, double Y2, double Z2, double Ta)
 {
+    qDebug("IKCORE : Circle function called");
     double D0 = 0;
     double D1 = 0;
     Vector3d A(X0, Y0, Z0);

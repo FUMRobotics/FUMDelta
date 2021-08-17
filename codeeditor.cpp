@@ -1,5 +1,10 @@
 #include "codeeditor.h"
 #include "ui_codeeditor.h"
+
+#pragma push_macro("slots")
+#undef slots
+#include <boost/python.hpp>
+#pragma pop_macro("slots")
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>
@@ -707,6 +712,7 @@ void CodeEditor::on_actionRun_triggered()
 {
     qDebug("run triggered");
     qDebug(currentEditorWidget->toPlainText().toLatin1());
+    PyRun_SimpleString(currentEditorWidget->toPlainText().toStdString().c_str());
     // in here start interpreter
 //    InterpreterCore* core=new InterpreterCore();
 //    core->parsText(currentEditorWidget->toPlainText());

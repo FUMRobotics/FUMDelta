@@ -1,7 +1,11 @@
 #ifndef INVERSEKINEMATICSCORE_H
 #define INVERSEKINEMATICSCORE_H
-
+#define BOOST_PYTHON_MAX_ARITY 22
 #include <iostream>
+#pragma push_macro("slots")
+#undef slots
+#include <boost/python.hpp>
+#pragma pop_macro("slots")
 #include <Eigen/Dense>
 #include <math.h>
 #include <QtConcurrent>
@@ -46,6 +50,19 @@ public:
               double Y2,double Z2,double Ta);
 
 
+
+
+    // Proxy function for converting python list to c-array
+    void InverseKinematicsNewProxy(double x, double y, double z, boost::python::list& ns){
+        qDebug("IKCore : IKNew proxy has been called");
+        double finalTeta[3];
+        for (int i = 0; i < len(ns); ++i)
+          {
+                finalTeta[i] = boost::python::extract<double>(ns[i]);
+          }
+        this->InverseKinematicsNew(x,y,z,finalTeta);
+
+    }
     //Test function to use it with Boost.Py library
     void callFromPy(){
         qDebug("Called from python");
