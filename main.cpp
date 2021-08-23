@@ -9,6 +9,7 @@
 #include "sevensegment.h"
 #include "inversekinematicscore.h"
 #include "receiverVision.h"
+#include "RecieverInterface.h"
 #include "receiver.h"
 #include <QtGlobal>
 #include <stdio.h>
@@ -181,15 +182,17 @@ int main(int argc, char *argv[])
 
 
 
+
+
     //start drives
     //start ethercat and drives
     Receiver receiver;
-    ReceiverVision receiverVision;
+//    ReceiverVision receiverVision; // for receiving position in x y z order
+    ReceiverInterFace receiverInterface; // for receiving theta
 
     MainWindow w(&receiver);
-
     receiver.start();
-    receiverVision.start();
+    receiverInterface.start();
 
     QProcess *startDrivesProcess=new QProcess() ;
     QProcess process2;

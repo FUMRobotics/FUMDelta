@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    RecieverInterface.cpp \
         main.cpp \
         mainwindow.cpp \
     qcustomplot.cpp \
@@ -224,6 +225,7 @@ SOURCES += \
     robotstate.cpp
 
 HEADERS += \
+    RecieverInterface.h \
         mainwindow.h \
     qcustomplot.h \
     receiver.h \

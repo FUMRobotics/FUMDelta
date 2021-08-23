@@ -1,7 +1,7 @@
 #ifndef INVERSEKINEMATICSCORE_H
 #define INVERSEKINEMATICSCORE_H
-#define BOOST_PYTHON_MAX_ARITY 22
 #include <iostream>
+#define BOOST_PYTHON_MAX_ARITY 22
 #pragma push_macro("slots")
 #undef slots
 #include <boost/python.hpp>
