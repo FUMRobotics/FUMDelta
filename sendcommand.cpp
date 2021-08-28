@@ -94,6 +94,7 @@ void SendCommand::GoHome(int drive_id)
 
 void SendCommand::SendPointTo4Drives(double p0, double p1, double p2, double p3)
 {
+    qDebug("send points for 4 drives called ");
     message_buf sbuf;
     //size_t buf_length;
 
@@ -133,8 +134,6 @@ void SendCommand::SendPointTo3Drives(double p0, double p1, double p2)
     //dummy values
     sbuf.opCode[3]=0;
     //sbuf.data[3]=degree_to_motor_position();
-
-
     SendData(sbuf);
 }
 

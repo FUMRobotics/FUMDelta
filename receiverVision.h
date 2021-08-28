@@ -1,5 +1,5 @@
-#ifndef RECIEVER_H
-#define RECIEVER_H
+#ifndef RECIEVERVISION_H
+#define RECIEVERVISION_H
 
 #include <QObject>
 #include <QThread>
@@ -21,7 +21,7 @@
 #include "robotstate.h"
 
 
-class Receiver : public QThread
+class ReceiverVision : public QThread
 {
     Q_OBJECT
 private:
@@ -38,7 +38,7 @@ private:
     int GEARBOX_RATIO=20;
     void run();
 public:
-    explicit Receiver(QObject *parent = nullptr);
+    explicit ReceiverVision(QObject *parent = nullptr);
     void print_config(void);
     static void signal_handler()
     {
@@ -54,7 +54,7 @@ public:
 
     }
 
-    ~Receiver();
+    ~ReceiverVision();
 
     double motor_to_degree_position(int32_t point) ;
     void calculate_motor_to_degree_array(int32_t points[4],double *ret_data);

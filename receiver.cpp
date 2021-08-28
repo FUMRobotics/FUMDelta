@@ -204,12 +204,16 @@ void Receiver::receiverBase()
                     , recvdMsg.actPos[3] ,recvdMsg.targetPos[3] ,motor_to_degree_position(recvdMsg.actPos[3]) , motor_to_degree_position(recvdMsg.targetPos[3])
                     );
 
-
-
             /* Print the message's data. */
-            //qDebug("Motor 0 actual position: %d\n", recvdMsg.actPos[0]);
-            //qDebug("Motor 1 actual position: %d\n", recvdMsg.actPos[1]);
-            //qDebug("Update period:           %ld\n", recvdMsg.updatePeriod);
+//            qDebug("Motor 0 actual position: %d\n", recvdMsg.actPos[0]);
+//            qDebug("Motor 1 actual position: %d\n", recvdMsg.actPos[1]);
+//            qDebug("Motor 2 actual position: %d\n", recvdMsg.actPos[2]);
+//            qDebug("Motor 3 actual position: %d\n", recvdMsg.actPos[3]);
+//            qDebug("Motor 0 target position: %d\n", recvdMsg.targetPos[0]);
+//            qDebug("Motor 1 target position: %d\n", recvdMsg.targetPos[1]);
+//            qDebug("Motor 2 target position: %d\n", recvdMsg.targetPos[2]);
+//            qDebug("Motor 3 target position: %d\n", recvdMsg.targetPos[3]);
+//            qDebug("Update period:           %ld\n", recvdMsg.updatePeriod);
 
 
 

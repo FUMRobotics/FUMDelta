@@ -48,8 +48,8 @@ void RobotState::setAngles(double angle_0, double angle_1, double angle_2,double
     drive_1_angle=angle_1;
     drive_2_angle=angle_2;
     drive_3_angle=angle_3;
-    qDebug("set angle in robot state. angle_0=%lf angle_1=%lf angle_2=%lf angle_3=%lf"
-           ,angle_0,angle_1,angle_2,angle_3);
+//    qDebug("set angle in robot state. angle_0=%lf angle_1=%lf angle_2=%lf angle_3=%lf"
+//           ,angle_0,angle_1,angle_2,angle_3);
 }
 
 double RobotState::getX()
