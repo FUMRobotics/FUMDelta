@@ -83,13 +83,20 @@ void Receiver::receiverBase()
 
 
     /* open the file */
-    fp = fopen("newlog.txt", "w");
+    fp = fopen("/home/fumdelta/newlog.txt", "w");
 
     if (fp == NULL)
     {
         qDebug("Failed to open file log.txt\n");
 
     }
+
+    fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "updatePeriod"
+            , "actPos[0]" ,"targetPos[0]" ,"actPos[0]" , "targetPos[0]", "actToq[0]"
+            , "actPos[1]" ,"targetPos[1]" ,"actPos[1]" , "targetPos[1]", "actToq[1]"
+            , "actPos[2]" ,"targetPos[2]" ,"actPos[2]" , "targetPos[2]", "actToq[2]"
+            , "actPos[3]" ,"targetPos[3]" ,"actPos[3]" , "targetPos[3]", "actToq[3]"
+            );
 
     /* Cycle number. */
     int i = 0;
@@ -123,6 +130,7 @@ void Receiver::receiverBase()
         long       updatePeriod;
         int32_t    actPos[4];
         int32_t    targetPos[4];
+        int16_t    targetToq[4];
 
     } receiveMassage;
 
@@ -198,10 +206,11 @@ void Receiver::receiverBase()
                 emit newMessage(messageCounter,target_actpos, act_actpos);
             }
             messageCounter++;
-            fprintf(fp, "%ld,%ld,%ld,%f,%f,%ld,%ld,%f,%f,%ld,%ld,%f,%f,%ld,%ld,%f,%f\n", recvdMsg.updatePeriod ,recvdMsg.actPos[0] ,recvdMsg.targetPos[0] ,motor_to_degree_position(recvdMsg.actPos[0]) , motor_to_degree_position(recvdMsg.targetPos[0])
-                    , recvdMsg.actPos[1] ,recvdMsg.targetPos[1] ,motor_to_degree_position(recvdMsg.actPos[1]) , motor_to_degree_position(recvdMsg.targetPos[1])
-                    , recvdMsg.actPos[2] ,recvdMsg.targetPos[2] ,motor_to_degree_position(recvdMsg.actPos[2]) , motor_to_degree_position(recvdMsg.targetPos[2])
-                    , recvdMsg.actPos[3] ,recvdMsg.targetPos[3] ,motor_to_degree_position(recvdMsg.actPos[3]) , motor_to_degree_position(recvdMsg.targetPos[3])
+            fprintf(fp, "%ld,%ld,%ld,%f,%f,%d,%ld,%ld,%f,%f,%d,%ld,%ld,%f,%f,%d,%ld,%ld,%f,%f,%d\n", recvdMsg.updatePeriod
+                    , recvdMsg.actPos[0] ,recvdMsg.targetPos[0] ,motor_to_degree_position(recvdMsg.actPos[0]) , motor_to_degree_position(recvdMsg.targetPos[0]), recvdMsg.targetToq[0]
+                    , recvdMsg.actPos[1] ,recvdMsg.targetPos[1] ,motor_to_degree_position(recvdMsg.actPos[1]) , motor_to_degree_position(recvdMsg.targetPos[1]), recvdMsg.targetToq[1]
+                    , recvdMsg.actPos[2] ,recvdMsg.targetPos[2] ,motor_to_degree_position(recvdMsg.actPos[2]) , motor_to_degree_position(recvdMsg.targetPos[2]), recvdMsg.targetToq[2]
+                    , recvdMsg.actPos[3] ,recvdMsg.targetPos[3] ,motor_to_degree_position(recvdMsg.actPos[3]) , motor_to_degree_position(recvdMsg.targetPos[3]), recvdMsg.targetToq[3]
                     );
 
             /* Print the message's data. */
